@@ -19,7 +19,11 @@ void Level::AddActor(Actor* newActor)
 	//actors.PushBack(newActor);
 	addRequestedActors.emplace_back(newActor);
 }
-
+Actor* Level::AddActor(Actor* newActor,int add)
+{
+	AddActor(newActor);
+	return newActor;
+}
 void Level::ProcessAddedAndDestroyedActor()
 {
 	// 액터 순회 후 삭제 요청된 액터를 처리.
