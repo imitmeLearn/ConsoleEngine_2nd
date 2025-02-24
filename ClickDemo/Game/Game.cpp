@@ -1,11 +1,15 @@
 ﻿#include "Game.h"
 
+Game* Game::instance = nullptr;
+
 Game::Game():Engine()
 {
 	instance = this;
 }
-//
-//Level * Game::MainLevel() const
-//{
-//	return mainLevel;
-//}
+
+void Game::SetCursorPosition(int x,int y)
+{
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD coord = {static_cast<short>(x),static_cast<short>(y)};
+	SetConsoleCursorPosition(handle,coord);
+}

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Math/Vector2.h"
 
@@ -7,10 +7,9 @@ class Node
 	friend class AStar;
 
 public:
-	Node(const Vector2& position = Vector2(), Node* parent = nullptr)
-		: position(position), parent(parent)
-	{
-	}
+	Node(const Vector2& position = Vector2(),Node* parent = nullptr)
+		: position(position),parent(parent)
+	{}
 
 	~Node() = default;
 
@@ -23,7 +22,10 @@ public:
 	{
 		return position == other.position;
 	}
-
+	Vector2 Position()
+	{
+		return position;
+	}
 private:
 	Vector2 position;
 	Node* parent = nullptr;

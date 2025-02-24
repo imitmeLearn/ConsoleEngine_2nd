@@ -4,6 +4,7 @@
 #include "Algorithm\AStar.h"
 #include "Algorithm\Node.h"
 
+class DrawableActor;
 class DemoLevel: public Level
 {
 	enum NodeType{
@@ -21,18 +22,21 @@ private:
 public:
 	DemoLevel();
 	virtual void Update(float deltaTime) override;
+	virtual void Draw() override;
 
 	//경로그리기
 	void DrawPath();
-
 private:
+	void DrawMap();
+	//void DisplayGridWithPath(std::vector<std::vector<int>>& grid,std::vector<Node*>& path);
 
 public:
-	Actor* start;
-	Actor* goal;
+	DrawableActor* start;
+	DrawableActor* goal;
 
 	AStar* aStar;
 
 	Node* startNode;
 	Node* goalNode;
+	std::vector<Node*> path_node;
 };

@@ -5,7 +5,11 @@ class Game: public Engine
 {
 public:
 	Game();
-	//virtual Level* MainLevel() const;
+	void SetCursorPosition(int x,int y);
+	static Game& Get() {
+		return *instance;
+	}
 
 private:
+	static Game* instance;
 };

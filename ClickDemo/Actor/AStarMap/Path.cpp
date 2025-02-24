@@ -6,6 +6,13 @@ Path::Path()
 	color=(Color)((int)Color::Red + (int)Color::Green);
 }
 
+Path::Path(const Vector2 & position)
+	:DrawableActor("+")
+{
+	this->position = position;	//위치 설정
+	color=(Color)((int)Color::Red + (int)Color::Green);
+}
+
 void Path::Update(float deltaTime)
 {
 	DrawableActor::Update(deltaTime);

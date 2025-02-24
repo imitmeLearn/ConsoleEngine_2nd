@@ -1,36 +1,36 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Core.h"
 #include "RTTI.h"
 #include "Container/List.h"
 #include <vector>
 
-// Àü¹æ ¼±¾ğ(Forward Declaration).
+// ì „ë°© ì„ ì–¸(Forward Declaration).
 class Actor;
-class ENGINE_API Level : public RTTI
+class ENGINE_API Level: public RTTI
 {
-	// RTTI Á¤ÀÇ.
-	RTTI_DECLARATIONS(Level, RTTI)
+	// RTTI ì •ì˜.
+	RTTI_DECLARATIONS(Level,RTTI)
 
 public:
 	Level();
 	virtual ~Level();
 
-	// ¾×ÅÍ Ãß°¡ ÇÔ¼ö.
+	// ì•¡í„° ì¶”ê°€ í•¨ìˆ˜.
 	void AddActor(Actor* newActor);
-
-	// »èÁ¦ ¿äÃ»ÀÌ µÈ ¾×ÅÍ¸¦ Á¤¸®ÇÏ´Â ÇÔ¼ö.
+	Actor* AddActor(Actor* newActor,int add);
+	// ì‚­ì œ ìš”ì²­ì´ ëœ ì•¡í„°ë¥¼ ì •ë¦¬í•˜ëŠ” í•¨ìˆ˜.
 	//void DestroyActor();
 	void ProcessAddedAndDestroyedActor();
 
-	// ·çÇÁ Ã³¸® ÇÔ¼ö.
+	// ë£¨í”„ ì²˜ë¦¬ í•¨ìˆ˜.
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
 protected:
-	// °ÔÀÓ °ø°£¿¡ ¹èÄ¡µÇ´Â ¹°Ã¼(¾×ÅÍ) ¹è¿­.
+	// ê²Œì„ ê³µê°„ì— ë°°ì¹˜ë˜ëŠ” ë¬¼ì²´(ì•¡í„°) ë°°ì—´.
 	std::vector<Actor*> actors;
 
-	// Ãß°¡ ¿äÃ»µÈ ¾×ÅÍ.
+	// ì¶”ê°€ ìš”ì²­ëœ ì•¡í„°.
 	std::vector<Actor*> addRequestedActors;
 };
