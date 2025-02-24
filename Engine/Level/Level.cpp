@@ -1,15 +1,14 @@
-#include "PreCompiledHeader.h"
+ï»¿#include "PreCompiledHeader.h"
 #include "Level.h"
 #include "Actor/Actor.h"
 
 Level::Level()
-{
-}
+{}
 
 Level::~Level()
 {
-	// ¸Þ¸ð¸® ÇØÁ¦.
-	for (Actor* actor : actors)
+	// ë©”ëª¨ë¦¬ í•´ì œ.
+	for(Actor* actor : actors)
 	{
 		delete actor;
 	}
@@ -23,10 +22,10 @@ void Level::AddActor(Actor* newActor)
 
 void Level::ProcessAddedAndDestroyedActor()
 {
-	// ¾×ÅÍ ¼øÈ¸ ÈÄ »èÁ¦ ¿äÃ»µÈ ¾×ÅÍ¸¦ Ã³¸®.
-	for (int ix = 0; ix < actors.size();)
+	// ì•¡í„° ìˆœíšŒ í›„ ì‚­ì œ ìš”ì²­ëœ ì•¡í„°ë¥¼ ì²˜ë¦¬.
+	for(int ix = 0; ix < actors.size();)
 	{
-		if (actors[ix]->isExpired)
+		if(actors[ix]->isExpired)
 		{
 			delete actors[ix];
 			actors[ix] = nullptr;
@@ -37,25 +36,25 @@ void Level::ProcessAddedAndDestroyedActor()
 		++ix;
 	}
 
-	// Ãß°¡ ¿äÃ»µÈ ¾×ÅÍ Ã³¸®.
-	if (addRequestedActors.size() > 0)
+	// ì¶”ê°€ ìš”ì²­ëœ ì•¡í„° ì²˜ë¦¬.
+	if(addRequestedActors.size() > 0)
 	{
-		for (Actor* newActor : addRequestedActors)
+		for(Actor* newActor : addRequestedActors)
 		{
 			actors.emplace_back(newActor);
 		}
-		
+
 		addRequestedActors.clear();
 	}
 }
 
 void Level::Update(float deltaTime)
 {
-	// ·¹º§¿¡ Æ÷ÇÔµÈ ¾×ÅÍ¸¦ ¼øÈ¸ÇÏ¸é¼­ Update ÇÔ¼ö È£Ãâ.
-	for (Actor* actor : actors)
+	// ë ˆë²¨ì— í¬í•¨ëœ ì•¡í„°ë¥¼ ìˆœíšŒí•˜ë©´ì„œ Update í•¨ìˆ˜ í˜¸ì¶œ.
+	for(Actor* actor : actors)
 	{
-		// ¾×ÅÍ°¡ ºñÈ°¼ºÈ­ »óÅÂÀÌ°Å³ª, »èÁ¦ ¿äÃ»µÈ °æ¿ì °Ç³Ê¶Ù±â.
-		if (!actor->isActive || actor->isExpired)
+		// ì•¡í„°ê°€ ë¹„í™œì„±í™” ìƒíƒœì´ê±°ë‚˜, ì‚­ì œ ìš”ì²­ëœ ê²½ìš° ê±´ë„ˆë›°ê¸°.
+		if(!actor->isActive || actor->isExpired)
 		{
 			continue;
 		}
@@ -66,11 +65,11 @@ void Level::Update(float deltaTime)
 
 void Level::Draw()
 {
-	// ·¹º§¿¡ Æ÷ÇÔµÈ ¾×ÅÍ¸¦ ¼øÈ¸ÇÏ¸é¼­ Draw ÇÔ¼ö È£Ãâ.
-	for (Actor* actor : actors)
+	// ë ˆë²¨ì— í¬í•¨ëœ ì•¡í„°ë¥¼ ìˆœíšŒí•˜ë©´ì„œ Draw í•¨ìˆ˜ í˜¸ì¶œ.
+	for(Actor* actor : actors)
 	{
-		// ¾×ÅÍ°¡ ºñÈ°¼ºÈ­ »óÅÂÀÌ°Å³ª, »èÁ¦ ¿äÃ»µÈ °æ¿ì °Ç³Ê¶Ù±â.
-		if (!actor->isActive || actor->isExpired)
+		// ì•¡í„°ê°€ ë¹„í™œì„±í™” ìƒíƒœì´ê±°ë‚˜, ì‚­ì œ ìš”ì²­ëœ ê²½ìš° ê±´ë„ˆë›°ê¸°.
+		if(!actor->isActive || actor->isExpired)
 		{
 			continue;
 		}
