@@ -9,6 +9,7 @@ public:
 	static Game& Get() {
 		return *instance;
 	}
+	~Game();
 
 private:
 	static Game* instance;

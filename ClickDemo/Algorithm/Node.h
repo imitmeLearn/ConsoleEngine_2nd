@@ -22,9 +22,22 @@ public:
 	{
 		return position == other.position;
 	}
-	Vector2 Position()
+	const Vector2& Position()
 	{
 		return position;
+	}
+
+	void SetPosition(const Vector2& position)
+	{
+		this-> position = position;
+	}
+	bool isParent()
+	{
+		if(parent)
+		{
+			return true;
+		}
+		return false;
 	}
 private:
 	Vector2 position;

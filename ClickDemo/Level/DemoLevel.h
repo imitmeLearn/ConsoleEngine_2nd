@@ -27,16 +27,16 @@ public:
 	//경로그리기
 	void DrawPath();
 private:
-	void DrawMap();
+	//void SetActors();
+	//void SetActors(std::vector<std::vector<int>>& grid);
+	//void SetActors(std::vector<std::vector<int>>& grid,const std::vector<Node*>& path);
 	//void DisplayGridWithPath(std::vector<std::vector<int>>& grid,std::vector<Node*>& path);
-
+	void DrawMaps();
 public:
 	DrawableActor* start;
 	DrawableActor* goal;
 
 	AStar* aStar;
 
-	Node* startNode;
-	Node* goalNode;
-	std::vector<Node*> path_node;
+	std::vector<std::vector<int>> origin_grid;
 };

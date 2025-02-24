@@ -13,3 +13,10 @@ void Game::SetCursorPosition(int x,int y)
 	COORD coord = {static_cast<short>(x),static_cast<short>(y)};
 	SetConsoleCursorPosition(handle,coord);
 }
+
+Game::~Game()
+{
+	//startNode->~Node();
+	//goalNode->~Node();
+	//aStar.~AStar();
+}

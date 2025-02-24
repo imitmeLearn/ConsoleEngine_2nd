@@ -46,21 +46,14 @@ std::vector<std::vector<int>> grid =
 
 void DemoLevel::DrawPath()
 {
-	if(!startNode && !goalNode)
-	{
-		std::cout<<"Node null";
-		return;
-	}
+	AStar aStar;	//Astar 객체
 
-	if(!path_node.empty())
-	{
-		std::cout<<"path not null";
+	grid = origin_grid; //grid 초기화
+	std::vector<Node*> path_node;
 
-		path_node.clear();
-	}
+	Node* startNode = nullptr;
+	Node* goalNode = nullptr;
 
-	startNode = new Node(start->Position());
-	goalNode = new Node(goal->Position());
 	grid[start->Position().y][start->Position().x] = 2;
 	grid[goal->Position().y][goal->Position().x] = 3;
 
@@ -71,20 +64,20 @@ void DemoLevel::DrawPath()
 			//시작지점
 			if(grid[y][x] ==2)
 			{
-				//startNode = new Node(x,y);
+				startNode = new Node(start->Position());
 				grid[y][x] = 0;
 				continue;
 			}
 
 			if(grid[y][x] ==3)
 			{
-				//goalNode = new Node(x,y);
+				goalNode = new Node(goal->Position());
 				grid[y][x] = 0;
 				continue;
 			}
 		}
 	}
-	path_node = aStar->FindPath(startNode,goalNode,grid);	//경로탐색
+	path_node = aStar.FindPath(startNode,goalNode,grid);	//경로탐색
 
 	if(path_node.empty())
 	{
@@ -93,16 +86,30 @@ void DemoLevel::DrawPath()
 
 	std::cout << "경로 찾음.  탐색 경로:"<<'\n';
 
+	// 액터 순회 후 삭제 요청된 액터를 처리. //초기화
+	for(auto* actor : actors)
+	{
+		if(actor)
+		{
+			if(actor->As<Player>()
+			|| actor->As<Start>()
+			|| actor->As<Wall>())
+			{
+				continue;
+			}
+			delete actor;
+			actor = nullptr;
+			continue;
+		}
+	}
+
 	for(Node* node : path_node)
 	{
 		// 경로는 '2'로 표시.
 		grid[node->Position().y][node->Position().x] = 2;
 	}
-	DrawMap();
-}
 
-void DemoLevel::DrawMap()
-{
+	//엑터 생성
 	for(int y = 0; y < grid.size(); ++y)
 	{
 		for(int x = 0; x < grid[0].size(); ++x)
@@ -110,7 +117,6 @@ void DemoLevel::DrawMap()
 			// 벽
 			if(grid[y][x] == 1)
 			{
-				//Wall* wall = new Wall(Vector2(x,y));
 				Wall* wall = new Wall(Vector2(x,y));
 				AddActor(wall);
 			}
@@ -127,25 +133,103 @@ void DemoLevel::DrawMap()
 				AddActor(path);
 			}
 		}
+	}
+	aStar.~AStar();
 
-		std::cout << "\n";
+	startNode->~Node();
+	goalNode->~Node();
+	//SafeDelete(goalNode);	//목표 노드만 제거
+}
+
+void DemoLevel::DrawMaps()
+{
+	//엑터 생성
+	for(int y = 0; y < grid.size(); ++y)
+	{
+		for(int x = 0; x < grid[0].size(); ++x)
+		{
+			// 벽
+			if(grid[y][x] == 1)
+			{
+				Wall* wall = new Wall(Vector2(x,y));
+				AddActor(wall);
+			}
+			// 빈 공간.
+			else if(grid[y][x] == 0)
+			{
+				Ground* gound = new Ground(Vector2(x,y));
+				AddActor(gound);
+			}
+			// 경로.
+			else if(grid[y][x] == 2)
+			{
+				Path* path = new Path(Vector2(x,y));
+				AddActor(path);
+			}
+		}
 	}
 }
+
+//void DemoLevel::SetActors()
+//void DemoLevel::SetActors(std::vector<std::vector<int>>& grid,const std::vector<Node*>& path_node)
+//void DemoLevel::SetActors(std::vector<std::vector<int>>& grid)
+//{
+//	// 액터 순회 후 삭제 요청된 액터를 처리.
+//	for(auto* actor : actors)
+//	{
+//		if(actor)
+//		{
+//			if(actor->As<Player>()
+//			|| actor->As<Start>()
+//			|| actor->As<Wall>())
+//			{
+//				continue;
+//			}
+//			delete actor;
+//			actor = nullptr;
+//			continue;
+//		}
+//	}
+//
+//	//엑터 생성
+//	for(int y = 0; y < grid.size(); ++y)
+//	{
+//		for(int x = 0; x < grid[0].size(); ++x)
+//		{
+//			// 벽
+//			if(grid[y][x] == 1)
+//			{
+//				Wall* wall = new Wall(Vector2(x,y));
+//				AddActor(wall);
+//			}
+//			// 빈 공간.
+//			else if(grid[y][x] == 0)
+//			{
+//				Ground* gound = new Ground(Vector2(x,y));
+//				AddActor(gound);
+//			}
+//			// 경로.
+//			else if(grid[y][x] == 2)
+//			{
+//				Path* path = new Path(Vector2(x,y));
+//				AddActor(path);
+//			}
+//		}
+//	}
+//
+//	SafeDelete(goaltNode);	//목표 노드만 제거
+//}
 
 DemoLevel::DemoLevel()
 {
 	SetActor(NodeType::START,AddActor(new Start(this),0));
 	SetActor(NodeType::GOAL,AddActor(new Player(this),1));
 
-	aStar =new AStar();	//Astar 객체
+	//startNode = new Node(start->Position());
+	//goalNode = new Node(goal->Position());
 
-	//startNode = new Node();
-	//goalNode = new Node();
-
-	startNode = new Node(start->Position());
-	goalNode = new Node(goal->Position());
-
-	DrawMap();
+	DrawMaps();
+	origin_grid = grid;
 }
 
 void DemoLevel::Update(float deltaTime)
@@ -162,16 +246,15 @@ void DemoLevel::Draw()
 
 	for(auto* actor : actors)
 	{
-		Wall* wall = actor->As<Wall>();
-		if(wall)
-		{
-			walls.PushBack(wall);
-		}
-
 		Ground* ground = actor->As<Ground>();
 		if(ground)
 		{
 			grounds.PushBack(ground);
+		}
+		Wall* wall = actor->As<Wall>();
+		if(wall)
+		{
+			walls.PushBack(wall);
 		}
 
 		Path* path = actor->As<Path>();
@@ -181,26 +264,13 @@ void DemoLevel::Draw()
 		}
 	}
 
+	for(auto* actor:grounds)
+	{
+		actor -> Draw();	//맵 액터 그리기
+	}
 	for(auto* actor:walls)
 	{
 		actor -> Draw();
-	}
-
-	for(auto* actor:grounds)
-	{
-		bool shouldDraw = true;
-		for(auto* path : paths)
-		{
-			if(actor->Position() == path->Position())
-			{
-				shouldDraw = false;
-				break;
-			}
-		}
-		if(shouldDraw)
-		{
-			actor -> Draw();	//맵 액터 그리기
-		}
 	}
 
 	for(auto* actor:paths)
