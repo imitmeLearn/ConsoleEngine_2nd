@@ -1,151 +1,149 @@
-#include "AStar.h"
+ï»¿#include "AStar.h"
 #include "Node.h"
 #include "Math/Vector2.h"
 
 #include <iostream>
 
 AStar::AStar()
-	: startNode(nullptr), goalNode(nullptr)
-{
-}
+	: startNode(nullptr),goalNode(nullptr)
+{}
 
 AStar::~AStar()
 {
-	// ¸Ş¸ğ¸® ÇØÁ¦.
-	for (Node* node : openList)
+	// ë©”ëª¨ë¦¬ í•´ì œ.
+	for(Node* node : openList)
 	{
 		SafeDelete(node);
 	}
 	openList.clear();
 
-	for (Node* node : closedList)
+	for(Node* node : closedList)
 	{
 		SafeDelete(node);
 	}
 	closedList.clear();
 }
 
-std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::vector<std::vector<int>>& grid)
+std::vector<Node*> AStar::FindPath(Node* startNode,Node* goalNode,const std::vector<std::vector<int>>& grid)
 {
 	this->startNode = startNode;
 	this->goalNode = goalNode;
 
-	// ½ÃÀÛ ³ëµå¸¦ ¿­¸° ¸®½ºÆ®(OpenList)¿¡ Ãß°¡.
+	// ì‹œì‘ ë…¸ë“œë¥¼ ì—´ë¦° ë¦¬ìŠ¤íŠ¸(OpenList)ì— ì¶”ê°€.
 	openList.emplace_back(startNode);
 
-	// »óÇÏÁÂ¿ì ¹× ´ë°¢¼± ÀÌµ¿ ¹æÇâ°ú ºñ¿ë
+	// ìƒí•˜ì¢Œìš° ë° ëŒ€ê°ì„  ì´ë™ ë°©í–¥ê³¼ ë¹„ìš©
 	std::vector<Direction> directions =
 	{
-		// ÇÏ»ó¿ìÁÂ ÀÌµ¿.
-		{ 0, 1, 1.0f }, { 0, -1, 1.0f }, { 1, 0, 1.0f }, { -1, 0, 1.0f },
+		// í•˜ìƒìš°ì¢Œ ì´ë™.
+		{0,1,1.0f},{0,-1,1.0f},{1,0,1.0f},{-1,0,1.0f},
 
-		// ´ë°¢¼± ÀÌµ¿.
-		{ 1, 1, 1.414f }, { 1, -1, 1.414f }, { -1, 1, 1.414f }, { -1, -1, 1.414f }
+		// ëŒ€ê°ì„  ì´ë™.
+		{1,1,1.414f},{1,-1,1.414f},{-1,1,1.414f},{-1,-1,1.414f}
 	};
 
-	// ÀÌ¿ô ³ëµå Å½»ö (¿­¸° ¸®½ºÆ®°¡ ºñ¾î ÀÖÁö ¾ÊÀº µ¿¾È ¹İº¹).
-	while (!openList.empty())
+	// ì´ì›ƒ ë…¸ë“œ íƒìƒ‰ (ì—´ë¦° ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ ìˆì§€ ì•Šì€ ë™ì•ˆ ë°˜ë³µ).
+	while(!openList.empty())
 	{
-		// ÇöÀç ¿­¸° ¸®½ºÆ®¿¡¼­ fCost°¡ °¡Àå ³·Àº ³ëµå °Ë»ö.
+		// í˜„ì¬ ì—´ë¦° ë¦¬ìŠ¤íŠ¸ì—ì„œ fCostê°€ ê°€ì¥ ë‚®ì€ ë…¸ë“œ ê²€ìƒ‰.
 		Node* lowestNode = openList[0];
-		for (Node* node : openList)
+		for(Node* node : openList)
 		{
-			if (node->fCost < lowestNode->fCost)
+			if(node->fCost < lowestNode->fCost)
 			{
 				lowestNode = node;
 			}
 		}
 
-		// fCost°¡ °¡Àå ³·Àº ³ëµå¸¦ ÇöÀç ³ëµå·Î ¼³Á¤.
+		// fCostê°€ ê°€ì¥ ë‚®ì€ ë…¸ë“œë¥¼ í˜„ì¬ ë…¸ë“œë¡œ ì„¤ì •.
 		Node* currentNode = lowestNode;
 
-		// ÇöÀç ³ëµå°¡ ¸ñÇ¥ ³ëµåÀÎÁö È®ÀÎ ÈÄ ¸ÂÀ¸¸é Á¾·á.
-		if (IsDestination(currentNode))
+		// í˜„ì¬ ë…¸ë“œê°€ ëª©í‘œ ë…¸ë“œì¸ì§€ í™•ì¸ í›„ ë§ìœ¼ë©´ ì¢…ë£Œ.
+		if(IsDestination(currentNode))
 		{
 			return ConstructPath(currentNode);
 		}
 
-		// ¹æ¹® Ã³¸®¸¦ À§ÇØ ÇöÀç ³ëµå¸¦ ¿­¸° ¸®½ºÆ®¿¡¼­ Á¦°Å.
-		for (int ix = 0; ix < static_cast<int>(openList.size()); ++ix)
+		// ë°©ë¬¸ ì²˜ë¦¬ë¥¼ ìœ„í•´ í˜„ì¬ ë…¸ë“œë¥¼ ì—´ë¦° ë¦¬ìŠ¤íŠ¸ì—ì„œ ì œê±°.
+		for(int ix = 0; ix < static_cast<int>(openList.size()); ++ix)
 		{
-			if (*openList[ix] == *currentNode)
+			if(*openList[ix] == *currentNode)
 			{
 				openList.erase(openList.begin() + ix);
 				break;
 			}
 		}
 
-		// ¹æ¹® Ã³¸®¸¦ À§ÇØ ÇöÀç ³ëµå¸¦ ´İÈù ¸®½ºÆ®¿¡ Ãß°¡.
-		// ÀÌ¹Ì ´İÈù ³ëµå¿¡ ÀÖ´Â ³ëµåÀÎÁö È®ÀÎ ÈÄ¿¡ ¾øÀ¸¸é Ãß°¡.
+		// ë°©ë¬¸ ì²˜ë¦¬ë¥¼ ìœ„í•´ í˜„ì¬ ë…¸ë“œë¥¼ ë‹«íŒ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€.
+		// ì´ë¯¸ ë‹«íŒ ë…¸ë“œì— ìˆëŠ” ë…¸ë“œì¸ì§€ í™•ì¸ í›„ì— ì—†ìœ¼ë©´ ì¶”ê°€.
 		bool isNodeInList = false;
-		for (Node* node : closedList)
+		for(Node* node : closedList)
 		{
-			if (*node == *currentNode)
+			if(*node == *currentNode)
 			{
 				isNodeInList = true;
 				break;
 			}
 		}
 
-		if (isNodeInList)
+		if(isNodeInList)
 		{
 			continue;
 		}
 
 		closedList.emplace_back(currentNode);
 
-		// ÀÌ¿ô ³ëµå ¹æ¹®(Å½»ö). (ÇÏ/»ó/¿ì/ÁÂ Â÷·Ê·Î ¹æ¹®).
-		for (const Direction& direction : directions)
+		// ì´ì›ƒ ë…¸ë“œ ë°©ë¬¸(íƒìƒ‰). (í•˜/ìƒ/ìš°/ì¢Œ ì°¨ë¡€ë¡œ ë°©ë¬¸).
+		for(const Direction& direction : directions)
 		{
-			// ´ÙÀ½¿¡ ÀÌµ¿ÇÒ À§Ä¡ ¼³Á¤.
+			// ë‹¤ìŒì— ì´ë™í•  ìœ„ì¹˜ ì„¤ì •.
 			int newX = currentNode->position.x + direction.x;
 			int newY = currentNode->position.y + direction.y;
 
-			// ±×¸®µå ¹ÛÀÌ¸é ¹«½Ã.
-			if (!IsInRange(newX, newY, grid))
+			// ê·¸ë¦¬ë“œ ë°–ì´ë©´ ë¬´ì‹œ.
+			if(!IsInRange(newX,newY,grid))
 			{
 				continue;
 			}
 
-			// ÀÌµ¿ÇÒ À§Ä¡°¡ Àå¾Ö¹°ÀÎ °æ¿ì¿¡´Â ¹«½Ã.
-			if (grid[newY][newX] == 1)
+			// ì´ë™í•  ìœ„ì¹˜ê°€ ì¥ì• ë¬¼ì¸ ê²½ìš°ì—ëŠ” ë¬´ì‹œ.
+			if(grid[newY][newX] == 1)
 			{
 				continue;
 			}
 
-			// ÀÌ¹Ì ¹æ¹®ÇÑ ³ëµåÀÎ °æ¿ì ¹«½Ã.
-			if (HasVisited(newX, newY, currentNode->gCost + direction.cost))
+			// ì´ë¯¸ ë°©ë¬¸í•œ ë…¸ë“œì¸ ê²½ìš° ë¬´ì‹œ.
+			if(HasVisited(newX,newY,currentNode->gCost + direction.cost))
 			{
 				continue;
 			}
 
-			// ¹æ¹®À» À§ÇÑ ÀÌ¿ô ³ëµå »ı¼º.
-			// ¹æ¹®ÇÒ ³ëµåÀÇ gCost, hCost, fCost °è»ê.
-			Node* neighborNode = new Node(Vector2(newX, newY), currentNode);
+			// ë°©ë¬¸ì„ ìœ„í•œ ì´ì›ƒ ë…¸ë“œ ìƒì„±.
+			// ë°©ë¬¸í•  ë…¸ë“œì˜ gCost, hCost, fCost ê³„ì‚°.
+			Node* neighborNode = new Node(Vector2(newX,newY),currentNode);
 			neighborNode->gCost = currentNode->gCost + direction.cost;
-			neighborNode->hCost = CalculateHeuristic(neighborNode, goalNode);
+			neighborNode->hCost = CalculateHeuristic(neighborNode,goalNode);
 			neighborNode->fCost = neighborNode->gCost + neighborNode->hCost;
 
-			// ÀÌ¿ô ³ëµå°¡ ¿­¸° ¸®½ºÆ®¿¡ ÀÖ´ÂÁö È®ÀÎ.
+			// ì´ì›ƒ ë…¸ë“œê°€ ì—´ë¦° ë¦¬ìŠ¤íŠ¸ì— ìˆëŠ”ì§€ í™•ì¸.
 			Node* openListNode = nullptr;
-			for (Node* node : openList)
+			for(Node* node : openList)
 			{
-				if (*node == *neighborNode)
+				if(*node == *neighborNode)
 				{
 					openListNode = node;
 					break;
 				}
 			}
 
-			// ÀÌ¿ô ³ëµå°¡ ¿­¸° ¸®½ºÆ®¿¡ ¾ø´Â °æ¿ì, ¹æ¹®À» À§ÇØ ¿­¸° ¸®½ºÆ®¿¡ Ãß°¡.
-			// ÀÌ¿ô ³ëµå°¡ ¿­¸° ¸®½ºÆ®¿¡ ÀÖ´Ù¸é, gCost¿Í fCost¸¦ ºñ±³ÇØ ´õ ³ªÀº °æ¿ì¿¡ ¿­¸° ¸®½ºÆ®¿¡ Ãß°¡.
-			if (openListNode == nullptr
+			// ì´ì›ƒ ë…¸ë“œê°€ ì—´ë¦° ë¦¬ìŠ¤íŠ¸ì— ì—†ëŠ” ê²½ìš°, ë°©ë¬¸ì„ ìœ„í•´ ì—´ë¦° ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€.
+			// ì´ì›ƒ ë…¸ë“œê°€ ì—´ë¦° ë¦¬ìŠ¤íŠ¸ì— ìˆë‹¤ë©´, gCostì™€ fCostë¥¼ ë¹„êµí•´ ë” ë‚˜ì€ ê²½ìš°ì— ì—´ë¦° ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€.
+			if(openListNode == nullptr
 				|| neighborNode->gCost < openListNode->gCost
 				|| neighborNode->fCost < openListNode->fCost)
 			{
 				openList.emplace_back(neighborNode);
-			}
-			else
+			} else
 			{
 				SafeDelete(neighborNode);
 			}
@@ -157,53 +155,53 @@ std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::v
 
 std::vector<Node*> AStar::ConstructPath(Node* goalNode)
 {
-	// ¸ñÇ¥ ³ëµå ºÎÅÍ, ºÎ¸ğ ³ëµå¸¦ µû¶ó ¿ªÃßÀûÇÏ¸é¼­ °æ·Î ³ëµå ¼³Á¤.
+	// ëª©í‘œ ë…¸ë“œ ë¶€í„°, ë¶€ëª¨ ë…¸ë“œë¥¼ ë”°ë¼ ì—­ì¶”ì í•˜ë©´ì„œ ê²½ë¡œ ë…¸ë“œ ì„¤ì •.
 	std::vector<Node*> path;
 	Node* currentNode = goalNode;
-	while (currentNode != nullptr)
+	while(currentNode != nullptr)
 	{
 		path.emplace_back(currentNode);
 		currentNode = currentNode->parent;
 	}
 
-	std::reverse(path.begin(), path.end());
+	std::reverse(path.begin(),path.end());
 	return path;
 }
 
-float AStar::CalculateHeuristic(Node* currentNode, Node* goalNode)
+float AStar::CalculateHeuristic(Node* currentNode,Node* goalNode)
 {
-	// ÇöÀç ³ëµåÀÇ À§Ä¡¿¡¼­ ¸ñÇ¥ À§Ä¡±îÁöÀÇ °Å¸®¸¦ ÈŞ¸®½ºÆ½ °ªÀ¸·Î »ç¿ë.
+	// í˜„ì¬ ë…¸ë“œì˜ ìœ„ì¹˜ì—ì„œ ëª©í‘œ ìœ„ì¹˜ê¹Œì§€ì˜ ê±°ë¦¬ë¥¼ íœ´ë¦¬ìŠ¤í‹± ê°’ìœ¼ë¡œ ì‚¬ìš©.
 	Vector2 diff = *currentNode - *goalNode;
-	return static_cast<float>(std::sqrt(std::pow(diff.x, 2) + std::pow(diff.y, 2)));
+	return static_cast<float>(std::sqrt(std::pow(diff.x,2) + std::pow(diff.y,2)));
 }
 
-bool AStar::IsInRange(int x, int y, const std::vector<std::vector<int>>& grid)
+bool AStar::IsInRange(int x,int y,const std::vector<std::vector<int>>& grid)
 {
-	// x, y ¹üÀ§°¡ ¹ş¾î³ª¸é false ¹İÈ¯.
-	if (x < 0 || x >= grid[0].size() || y < 0 || y >= grid.size())
+	// x, y ë²”ìœ„ê°€ ë²—ì–´ë‚˜ë©´ false ë°˜í™˜.
+	if(x < 0 || x >= grid[0].size() || y < 0 || y >= grid.size())
 	{
 		return false;
 	}
 
-	// ¹ş¾î³ªÁö ¾Ê¾ÒÀ¸¸é true ¹İÈ¯.
+	// ë²—ì–´ë‚˜ì§€ ì•Šì•˜ìœ¼ë©´ true ë°˜í™˜.
 	return true;
 }
 
-bool AStar::HasVisited(int x, int y, float gCost)
+bool AStar::HasVisited(int x,int y,float gCost)
 {
-	// ¿­¸° ¸®½ºÆ®³ª ´İÈù ¸®½ºÆ®¿¡ ÀÌ¹Ì ÇØ´ç À§Ä¡¿¡ ³ëµå°¡ ÀÖÀ¸¸é ¹æ¹®ÇÑ °ÍÀ¸·Î ÆÇ´Ü.
-	for (int ix = 0; ix < static_cast<int>(openList.size()); ++ix)
+	// ì—´ë¦° ë¦¬ìŠ¤íŠ¸ë‚˜ ë‹«íŒ ë¦¬ìŠ¤íŠ¸ì— ì´ë¯¸ í•´ë‹¹ ìœ„ì¹˜ì— ë…¸ë“œê°€ ìˆìœ¼ë©´ ë°©ë¬¸í•œ ê²ƒìœ¼ë¡œ íŒë‹¨.
+	for(int ix = 0; ix < static_cast<int>(openList.size()); ++ix)
 	{
 		Node* node = openList[ix];
-		if ((node->position.x == x && node->position.y == y))
+		if((node->position.x == x && node->position.y == y))
 		{
-			// À§Ä¡°¡ °°°í, ºñ¿ëÀÌ ´õ Å©¸é ¹æ¹®ÇÒ ÀÌÀ¯°¡ ¾ø±â ¶§¹®¿¡ ¹æ¹®Çß´Ù°í ÆÇ´Ü.
-			if (gCost > node->gCost)
+			// ìœ„ì¹˜ê°€ ê°™ê³ , ë¹„ìš©ì´ ë” í¬ë©´ ë°©ë¬¸í•  ì´ìœ ê°€ ì—†ê¸° ë•Œë¬¸ì— ë°©ë¬¸í–ˆë‹¤ê³  íŒë‹¨.
+			if(gCost > node->gCost)
 			{
 				return true;
 			}
 
-			// À§Ä¡´Â °°Áö¸¸, ºñ¿ëÀÌ ÀÛÀº °æ¿ì, ¹æ¹®ÇÒ ÇÊ¿ä°¡ ÀÖÀ¸¹Ç·Î, ±âÁ¸ÀÇ ³ëµå »èÁ¦.
+			// ìœ„ì¹˜ëŠ” ê°™ì§€ë§Œ, ë¹„ìš©ì´ ì‘ì€ ê²½ìš°, ë°©ë¬¸í•  í•„ìš”ê°€ ìˆìœ¼ë¯€ë¡œ, ê¸°ì¡´ì˜ ë…¸ë“œ ì‚­ì œ.
 			else
 			{
 				openList.erase(openList.begin() + ix);
@@ -212,18 +210,18 @@ bool AStar::HasVisited(int x, int y, float gCost)
 		}
 	}
 
-	for (int ix = 0; ix < static_cast<int>(closedList.size()); ++ix)
+	for(int ix = 0; ix < static_cast<int>(closedList.size()); ++ix)
 	{
 		Node* node = closedList[ix];
-		if ((node->position.x == x && node->position.y == y))
+		if((node->position.x == x && node->position.y == y))
 		{
-			// À§Ä¡°¡ °°°í, ºñ¿ëÀÌ ´õ Å©¸é ¹æ¹®ÇÒ ÀÌÀ¯°¡ ¾ø±â ¶§¹®¿¡ ¹æ¹®Çß´Ù°í ÆÇ´Ü.
-			if (gCost > node->gCost)
+			// ìœ„ì¹˜ê°€ ê°™ê³ , ë¹„ìš©ì´ ë” í¬ë©´ ë°©ë¬¸í•  ì´ìœ ê°€ ì—†ê¸° ë•Œë¬¸ì— ë°©ë¬¸í–ˆë‹¤ê³  íŒë‹¨.
+			if(gCost > node->gCost)
 			{
 				return true;
 			}
 
-			// À§Ä¡´Â °°Áö¸¸, ºñ¿ëÀÌ ÀÛÀº °æ¿ì, ¹æ¹®ÇÒ ÇÊ¿ä°¡ ÀÖÀ¸¹Ç·Î, ±âÁ¸ÀÇ ³ëµå »èÁ¦.
+			// ìœ„ì¹˜ëŠ” ê°™ì§€ë§Œ, ë¹„ìš©ì´ ì‘ì€ ê²½ìš°, ë°©ë¬¸í•  í•„ìš”ê°€ ìˆìœ¼ë¯€ë¡œ, ê¸°ì¡´ì˜ ë…¸ë“œ ì‚­ì œ.
 			else
 			{
 				closedList.erase(closedList.begin() + ix);
@@ -232,42 +230,42 @@ bool AStar::HasVisited(int x, int y, float gCost)
 		}
 	}
 
-	// ¸®½ºÆ®¿¡ ¾øÀ¸¸é ¹æ¹®ÇÏÁö ¾ÊÀº °ÍÀ¸·Î ÆÇ´Ü.
+	// ë¦¬ìŠ¤íŠ¸ì— ì—†ìœ¼ë©´ ë°©ë¬¸í•˜ì§€ ì•Šì€ ê²ƒìœ¼ë¡œ íŒë‹¨.
 	return false;
 }
 
 bool AStar::IsDestination(Node* node)
 {
-	// ³ëµåÀÇ À§Ä¡°¡ ¼­·Î °°ÀºÁö ºñ±³.
+	// ë…¸ë“œì˜ ìœ„ì¹˜ê°€ ì„œë¡œ ê°™ì€ì§€ ë¹„êµ.
 	return *node == *goalNode;
 }
 
-void AStar::DisplayGridWithPath(std::vector<std::vector<int>>& grid, const std::vector<Node*>& path)
+void AStar::DisplayGridWithPath(std::vector<std::vector<int>>& grid,const std::vector<Node*>& path)
 {
-	for (const Node* node : path)
+	for(const Node* node : path)
 	{
-		// °æ·Î´Â '2'·Î Ç¥½Ã.
+		// ê²½ë¡œëŠ” '2'ë¡œ í‘œì‹œ.
 		grid[node->position.y][node->position.x] = 2;
 	}
 
-	for (int y = 0; y < grid.size(); ++y)
+	for(int y = 0; y < grid.size(); ++y)
 	{
-		for (int x = 0; x < grid[0].size(); ++x)
+		for(int x = 0; x < grid[0].size(); ++x)
 		{
-			// Àå¾Ö¹°.
-			if (grid[y][x] == 1)
+			// ì¥ì• ë¬¼.
+			if(grid[y][x] == 1)
 			{
 				std::cout << "1 ";
 			}
 
-			// °æ·Î.
-			else if (grid[y][x] == 2)
+			// ê²½ë¡œ.
+			else if(grid[y][x] == 2)
 			{
 				std::cout << "* ";
 			}
 
-			// ºó °ø°£.
-			else if (grid[y][x] == 0)
+			// ë¹ˆ ê³µê°„.
+			else if(grid[y][x] == 0)
 			{
 				std::cout << "0 ";
 			}

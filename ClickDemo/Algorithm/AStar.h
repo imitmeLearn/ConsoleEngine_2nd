@@ -1,21 +1,21 @@
-#pragma once
+ï»¿#pragma once
 
 #include <vector>
 
-// A* ±æÃ£±â ±â´ÉÀ» Ã³¸®ÇÏ´Â Å¬·¡½º.
+// A* ê¸¸ì°¾ê¸° ê¸°ëŠ¥ì„ ì²˜ë¦¬í•˜ëŠ” í´ë˜ìŠ¤.
 class Node;
 class AStar
 {
 private:
 
-	// ¹æÇâ Ã³¸®¸¦ À§ÇÑ ±¸Á¶Ã¼.
+	// ë°©í–¥ ì²˜ë¦¬ë¥¼ ìœ„í•œ êµ¬ì¡°ì²´.
 	struct Direction
 	{
-		// À§Ä¡.
+		// ìœ„ì¹˜.
 		int x;
 		int y;
 
-		// ÀÌµ¿ ºñ¿ë
+		// ì´ë™ ë¹„ìš©
 		float cost;
 	};
 
@@ -23,40 +23,40 @@ public:
 	AStar();
 	~AStar();
 
-	// °æ·Î °Ë»ö ÇÔ¼ö.
-	std::vector<Node*> FindPath(Node* startNode, Node* goalNode, const std::vector<std::vector<int>>& grid);
+	// ê²½ë¡œ ê²€ìƒ‰ í•¨ìˆ˜.
+	std::vector<Node*> FindPath(Node* startNode,Node* goalNode,const std::vector<std::vector<int>>& grid);
 
-	// ±×¸®µå Ãâ·Â ÇÔ¼ö.
-	void DisplayGridWithPath(std::vector<std::vector<int>>& grid, const std::vector<Node*>& path);
+	// ê·¸ë¦¬ë“œ ì¶œë ¥ í•¨ìˆ˜.
+	void DisplayGridWithPath(std::vector<std::vector<int>>& grid,const std::vector<Node*>& path);
 
 private:
-	// Å½»öÀ» ¸¶Ä£ ÈÄ ÃÖÀû °æ·Î¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö.
-	// ¸ñÇ¥ ³ëµå¿¡¼­ ºÎ¸ğ ³ëµå¸¦ ÂüÁ¶ÇØ ½ÃÀÛ³ëµå±îÁö ¿ªÃßÀûÇÏ¸é °æ·Î¸¦ ±¸ÇÒ ¼ö ÀÖ´Ù.
+	// íƒìƒ‰ì„ ë§ˆì¹œ í›„ ìµœì  ê²½ë¡œë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜.
+	// ëª©í‘œ ë…¸ë“œì—ì„œ ë¶€ëª¨ ë…¸ë“œë¥¼ ì°¸ì¡°í•´ ì‹œì‘ë…¸ë“œê¹Œì§€ ì—­ì¶”ì í•˜ë©´ ê²½ë¡œë¥¼ êµ¬í•  ìˆ˜ ìˆë‹¤.
 	std::vector<Node*> ConstructPath(Node* goalNode);
 
-	// hCost °è»ê ÇÔ¼ö.
-	float CalculateHeuristic(Node* currentNode, Node* goalNode);
+	// hCost ê³„ì‚° í•¨ìˆ˜.
+	float CalculateHeuristic(Node* currentNode,Node* goalNode);
 
-	// Å½»öÇÏ·Á´Â À§Ä¡°¡ ±×¸®µå ¹üÀ§ ¾È¿¡ ÀÖ´ÂÁö È®ÀÎÇÏ´Â ÇÔ¼ö.
-	bool IsInRange(int x, int y, const std::vector<std::vector<int>>& grid);
+	// íƒìƒ‰í•˜ë ¤ëŠ” ìœ„ì¹˜ê°€ ê·¸ë¦¬ë“œ ë²”ìœ„ ì•ˆì— ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜.
+	bool IsInRange(int x,int y,const std::vector<std::vector<int>>& grid);
 
-	// ¹æ¹®ÇÏ·Á´Â À§Ä¡°¡ ÀÌ¹Ì ¹æ¹®Çß´ø ³ëµåÀÎÁö È®ÀÎÇÏ´Â ÇÔ¼ö.
-	bool HasVisited(int x, int y, float gCost);
+	// ë°©ë¬¸í•˜ë ¤ëŠ” ìœ„ì¹˜ê°€ ì´ë¯¸ ë°©ë¬¸í–ˆë˜ ë…¸ë“œì¸ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜.
+	bool HasVisited(int x,int y,float gCost);
 
-	// Å½»öÇÏ·Á´Â ³ëµå°¡ ¸ñÇ¥ ³ëµåÀÎÁö È®ÀÎÇÏ´Â ÇÔ¼ö.
+	// íƒìƒ‰í•˜ë ¤ëŠ” ë…¸ë“œê°€ ëª©í‘œ ë…¸ë“œì¸ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜.
 	bool IsDestination(Node* node);
 
 private:
 
-	// ¿­¸° ¸®½ºÆ®.
+	// ì—´ë¦° ë¦¬ìŠ¤íŠ¸.
 	std::vector<Node*> openList;
 
-	// ´İÈù ¸®½ºÆ®.
+	// ë‹«íŒ ë¦¬ìŠ¤íŠ¸.
 	std::vector<Node*> closedList;
 
-	// ½ÃÀÛ ³ëµå.
+	// ì‹œì‘ ë…¸ë“œ.
 	Node* startNode;
 
-	// ¸ñÇ¥ ³ëµå.
+	// ëª©í‘œ ë…¸ë“œ.
 	Node* goalNode;
 };
