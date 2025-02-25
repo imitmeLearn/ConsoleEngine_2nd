@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Actor.h"
 
-class ENGINE_API DrawableActor : public Actor
+class ENGINE_API DrawableActor: public Actor
 {
 	// RTTI.
-	RTTI_DECLARATIONS(DrawableActor, Actor)
+	RTTI_DECLARATIONS(DrawableActor,Actor)
 
 public:
 	DrawableActor(const char* image = "");
@@ -15,20 +15,28 @@ public:
 	virtual void Draw() override;
 	virtual void SetPosition(const Vector2& newPosition) override;
 
-	// Ãæµ¹ È®ÀÎ ÇÔ¼ö.
+	// ì¶©ëŒ í™•ì¸ í•¨ìˆ˜.
 	bool Intersect(const DrawableActor& other);
 
 	// Getter.
-	inline int Width() const { return width; }
+	inline int Width() const
+	{
+		return width;
+	}
+	inline int Height() const
+	{
+		return height;
+	}
 
 protected:
 
-	// È­¸é¿¡ ±×¸± ¹®ÀÚ °ª.
+	// í™”ë©´ì— ê·¸ë¦´ ë¬¸ì ê°’.
 	char* image;
 
-	// ³Êºñ(¹®ÀÚ¿­ ±æÀÌ).
+	// ë„ˆë¹„(ë¬¸ìì—´ ê¸¸ì´).
 	int width = 0;
+	int height = 0;
 
-	// »ö»ó °ª.
+	// ìƒ‰ìƒ ê°’.
 	Color color = Color::White;
 };

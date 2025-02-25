@@ -13,6 +13,22 @@ DrawableActor::DrawableActor(const char* image)
 
 	// 너비 설정.
 	width = (int)strlen(image);
+
+	//여러줄인경우
+	 // 가장 긴 줄의 길이를 찾아서 width 설정
+	int max_width = 0,current_width = 0,max_height=1;
+	for(int i = 0; i < length; i++) {
+		if(image[i] == '\n') {
+			max_width = (max_width > current_width) ? max_width : current_width;
+			current_width = 0;
+			++max_height;
+		} else {
+			current_width++;
+		}
+	}
+	max_width = (max_width > current_width) ? max_width : current_width;
+	width = max_width;
+	height = max_height;
 }
 
 DrawableActor::~DrawableActor()

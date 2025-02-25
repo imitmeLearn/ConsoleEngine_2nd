@@ -189,11 +189,31 @@ void Engine::SetCursorType(CursorType cursorType)
 
 void Engine::Draw(const Vector2& position,const char* image,Color color)
 {
-	for(int ix = 0; ix < (int)strlen(image); ++ix)
+	//for(int ix = 0; ix < (int)strlen(image); ++ix)
+	//{
+	//	int index = (position.y * (screenSize.x)) + position.x + ix;
+	//	imageBuffer[index].Char.AsciiChar = image[ix];
+	//	imageBuffer[index].Attributes = (unsigned long)color;
+	//}
+
+	int x = position.x;
+	int y = position.y;
+	int screenWidth = screenSize.x;  // 화면 너비 가져오기
+	int offsetX = 0;  // 현재 줄의 X 오프셋
+
+	for(int i = 0; image[i] != '\0'; ++i)
 	{
-		int index = (position.y * (screenSize.x)) + position.x + ix;
-		imageBuffer[index].Char.AsciiChar = image[ix];
-		imageBuffer[index].Attributes = (unsigned long)color;
+		if(image[i] == '\n') {
+			// 개행 문자 처리: Y 위치를 증가시키고, X를 처음 위치로 리셋
+			y++;
+			offsetX = 0;
+		} else {
+			// 화면 버퍼의 올바른 위치 계산
+			int index = (y * screenWidth) + (x + offsetX);
+			imageBuffer[index].Char.AsciiChar = image[i];
+			imageBuffer[index].Attributes = (unsigned long)color;
+			offsetX++;  // 같은 줄에서 X 위치 증가
+		}
 	}
 }
 
