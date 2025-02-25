@@ -48,7 +48,7 @@
     <ClCompile Include="Algorithm\RBT\RedBlackTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Algorithm\RBT\Node.cpp">
+    <ClCompile Include="Algorithm\RBT\Node_RBT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,7 +86,10 @@
     <ClInclude Include="Algorithm\RBT\RedBlackTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Algorithm\RBT\Node.h">
+    <ClInclude Include="Algorithm\RBT\Node_RBT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\RBT\RBTNodeActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

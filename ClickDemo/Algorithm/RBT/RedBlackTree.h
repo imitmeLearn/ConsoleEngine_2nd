@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <string>
-#include "Node.h"
+#include "Node_RBT.h"
 
 class RedBlackTree
 {
@@ -12,7 +12,7 @@ public:
 	RedBlackTree();
 
 	//노드 검색 함수
-	bool Find(int data,Node** outNode);
+	bool Find(int data,Node_RBT** outNode);
 
 	//노드 추가 함수
 	bool Insert(int data);
@@ -25,43 +25,43 @@ public:
 
 private:
 	//노드 생성함수
-	Node* CreateNode (int data,Node::Color color);
+	Node_RBT* CreateNode (int data,Color_RBTNode color);
 
 	//노드 검색 재귀 함수.
-	bool FindRecursive(Node* node,Node** outNode,int data);
+	bool FindRecursive(Node_RBT* node,Node_RBT** outNode,int data);
 
 	//노드 추가 함수 (새 노드 전달)
-	void Insert(Node* newNode);
+	void Insert(Node_RBT* newNode);
 
 	//노드 삭제 함수.
-	void RemoveImpl(Node* node);
+	void RemoveImpl(Node_RBT* node);
 
 	//트리에 노드를 추가하는 재귀 함수.
-	void InsertRecursive(Node* node,Node* newNode);
+	void InsertRecursive(Node_RBT* node,Node_RBT* newNode);
 
 	//노드 삽입 후 재정렬을 처리히는 함수.
-	void RestructureAfterInsert(Node* newNode);
+	void RestructureAfterInsert(Node_RBT* newNode);
 
-	void RestructureAfterRemove(Node* node);
+	void RestructureAfterRemove(Node_RBT* node);
 
 	//회전함수_좌
-	void RotateToLeft(Node* node);
-	void RotateToRight(Node* node);
+	void RotateToLeft(Node_RBT* node);
+	void RotateToRight(Node_RBT* node);
 
 	//트리에서 최소 값을 가진 노드를 검색하는 함수.
-	Node* FindMinRecursive(Node* node);
+	Node_RBT* FindMinRecursive(Node_RBT* node);
 	//트리에서 최대 값을 가진 노드를 검색하는 함수.
-	Node* FindMaxRecursive(Node* node);
+	Node_RBT* FindMaxRecursive(Node_RBT* node);
 
 	//삭제함수
-	void DestroyRecursive(Node* node);
+	void DestroyRecursive(Node_RBT* node);
 
 	//출력 재귀 함수
-	void PrintRecursive(Node* node,int depth,int blackCount);
+	void PrintRecursive(Node_RBT* node,int depth,int blackCount);
 
 private:
-	Node* root = nullptr;
-	static Node* nil;
+	Node_RBT* root = nullptr;
+	static Node_RBT* nil;
 };
 
 //콘솔 텍스트 색상 열거형,

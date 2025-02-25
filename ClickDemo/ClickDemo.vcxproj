@@ -189,7 +189,7 @@
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Actor\Start.cpp" />
     <ClCompile Include="Algorithm\AStar.cpp" />
-    <ClCompile Include="Algorithm\RBT\Node.cpp" />
+    <ClCompile Include="Algorithm\RBT\Node_RBT.cpp" />
     <ClCompile Include="Algorithm\RBT\RedBlackTree.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Level\DemoLevel.cpp" />
@@ -201,9 +201,10 @@
     <ClInclude Include="Actor\AStarMap\Ground.h" />
     <ClInclude Include="Actor\AStarMap\Wall.h" />
     <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\RBT\RBTNodeActor.h" />
     <ClInclude Include="Actor\Start.h" />
     <ClInclude Include="Algorithm\AStar.h" />
-    <ClInclude Include="Algorithm\RBT\Node.h" />
+    <ClInclude Include="Algorithm\RBT\Node_RBT.h" />
     <ClInclude Include="Algorithm\RBT\RedBlackTree.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Level\DemoLevel.h" />

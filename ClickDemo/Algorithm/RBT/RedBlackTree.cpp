@@ -1,9 +1,9 @@
 ﻿#include "RedBlackTree.h"
 
-Node* RedBlackTree::nil = nullptr;
-Node * RedBlackTree::CreateNode(int data,Node::Color color)
+Node_RBT* RedBlackTree::nil = nullptr;
+Node_RBT * RedBlackTree::CreateNode(int data,Color_RBTNode color)
 {
-	Node* newNode = new Node(data,color);
+	Node_RBT* newNode = new Node_RBT(data,color);
 	newNode -> SetLeft(nil);
 	newNode -> SetRight(nil);
 	return newNode;
@@ -19,12 +19,12 @@ RedBlackTree::RedBlackTree()
 {
 	if(nil == nullptr)
 	{
-		nil = new Node(0,Node::Color::Black);
+		nil = new Node_RBT(0,Color_RBTNode::Black);
 	}
 	root = nil;
 }
 
-bool RedBlackTree::Find(int data,Node** outNode)
+bool RedBlackTree::Find(int data,Node_RBT** outNode)
 {
 	//트리가 비었다면, 검색 실패
 	if(root == nil)
@@ -36,7 +36,7 @@ bool RedBlackTree::Find(int data,Node** outNode)
 	return FindRecursive(root,outNode,data);
 }
 
-bool RedBlackTree::FindRecursive(Node* node,Node** outNode,int data)
+bool RedBlackTree::FindRecursive(Node_RBT* node,Node_RBT** outNode,int data)
 {
 	//재귀 탈출 조건(검색 실패)
 	if(node == nil)
@@ -65,7 +65,7 @@ bool RedBlackTree::FindRecursive(Node* node,Node** outNode,int data)
 }
 bool RedBlackTree::Insert(int data)
 {
-	Node* node = nullptr;
+	Node_RBT* node = nullptr;
 	if(Find(data,&node))
 	{
 		std::cout <<"오류 - 노드 추가 실패 : 이미 같은 값이 있다. 입력값 : "
@@ -73,7 +73,7 @@ bool RedBlackTree::Insert(int data)
 		return false;
 	}
 
-	Insert(CreateNode(data,Node::Color::Red));	//노드 생성 후 결과 반환.
+	Insert(CreateNode(data,Color_RBTNode::Red));	//노드 생성 후 결과 반환.
 	return true;	//중복 안되면, 성공!
 }
 
@@ -82,21 +82,21 @@ void RedBlackTree::Print(int depth,int blackCount)
 	PrintRecursive(root,depth,blackCount);
 }
 
-void RedBlackTree::Insert(Node * newNode)
+void RedBlackTree::Insert(Node_RBT * newNode)
 {
 	//트리가 비어있는 경우, 루트로 설정
 	if(root == nil)
 	{
 		root = newNode;
-		root->SetColor(Node::Color::Black);
-		return ;
+		root->SetColor(Color_RBTNode::Black);
+		return;
 	}
 
 	//비어있지 않은 경우, 재귀적으로 위치 검색 후 삽입. 이진트리와 같아.
 	InsertRecursive(root,newNode);
 
 	//삽입 된 노드 값 정리.
-	newNode->SetColor(Node::Color::Red);
+	newNode->SetColor(Color_RBTNode::Red);
 	newNode->SetLeft(nil);
 	newNode->SetRight(nil);
 
@@ -106,7 +106,7 @@ void RedBlackTree::Insert(Node * newNode)
 
 void RedBlackTree::Remove(int data)
 {
-	Node* deleted = nullptr;
+	Node_RBT* deleted = nullptr;
 	if(!Find(data,&deleted))
 	{
 		std::cout
@@ -119,15 +119,15 @@ void RedBlackTree::Remove(int data)
 
 	RemoveImpl(deleted);
 }
-void RedBlackTree::RemoveImpl(Node * node)
+void RedBlackTree::RemoveImpl(Node_RBT * node)
 {
 	// 삭제 대상 노드.
-	Node* removed = nullptr;
+	Node_RBT* removed = nullptr;
 
 	// 삭제할 위치의 대체 노드.
-	Node* trail = nil;
+	Node_RBT* trail = nil;
 
-	Node* target = node;
+	Node_RBT* target = node;
 
 	// 자손이 하나 이하인 경우.
 	if(target->Left() == nil || target->Right() == nil)
@@ -187,7 +187,7 @@ void RedBlackTree::RemoveImpl(Node * node)
 	}
 
 	// 재정렬 여부 확인후 진행.
-	if(removed->GetColor() == Node::Color::Black && trail != nil)
+	if(removed->GetColor() == Color_RBTNode::Black && trail != nil)
 	{
 		// 재정렬 진행.
 		RestructureAfterRemove(trail);
@@ -197,7 +197,7 @@ void RedBlackTree::RemoveImpl(Node * node)
 	SafeDelete(removed);
 }
 
-void RedBlackTree::InsertRecursive(Node * node,Node * newNode)
+void RedBlackTree::InsertRecursive(Node_RBT * node,Node_RBT * newNode)
 {
 	//새 노드의 데이터가 현재 노드보다 작으면, 외쪽하위 느==느===트리로 삽입 진행
 	if(node->Data() > newNode ->Data())
@@ -225,9 +225,9 @@ void RedBlackTree::InsertRecursive(Node * node,Node * newNode)
 	}
 }
 
-void RedBlackTree::RotateToLeft(Node * node)
+void RedBlackTree::RotateToLeft(Node_RBT * node)
 {
-	Node* right = node->Right();
+	Node_RBT* right = node->Right();
 
 	//오늘쪽 자식 노드의 왼쪽 자식 노드를 부모의 오른쪽 자식 으로 등록
 	node ->SetRight(right->Left());
@@ -261,11 +261,11 @@ void RedBlackTree::RotateToLeft(Node * node)
 	node->SetParent(right);
 }
 
-void RedBlackTree::RotateToRight(Node * node)
+void RedBlackTree::RotateToRight(Node_RBT * node)
 {
 	//RotateToLeft 의 반대방얗으로 변경
 
-	Node* left = node->Left();
+	Node_RBT* left = node->Left();
 
 	node ->SetLeft(left->Right());
 
@@ -299,7 +299,7 @@ void RedBlackTree::RotateToRight(Node * node)
 	node->SetParent(left);
 }
 
-Node * RedBlackTree::FindMinRecursive(Node * node)
+Node_RBT * RedBlackTree::FindMinRecursive(Node_RBT * node)
 {
 	//탈출조건
 	if(node == nil)
@@ -316,7 +316,7 @@ Node * RedBlackTree::FindMinRecursive(Node * node)
 	return FindMinRecursive(node->Left());
 }
 
-Node * RedBlackTree::FindMaxRecursive(Node * node)
+Node_RBT * RedBlackTree::FindMaxRecursive(Node_RBT * node)
 {
 	//탈출조건
 	if(node == nil)
@@ -333,7 +333,7 @@ Node * RedBlackTree::FindMaxRecursive(Node * node)
 	return FindMaxRecursive(node->Right());
 }
 
-void RedBlackTree::DestroyRecursive(Node * node)
+void RedBlackTree::DestroyRecursive(Node_RBT * node)
 {
 	if(node == nil)	//재귀 탈출 조건.
 	{
@@ -341,8 +341,8 @@ void RedBlackTree::DestroyRecursive(Node * node)
 	}
 
 	//자식
-	Node* left = node->Left();
-	Node* right = node->Right();
+	Node_RBT* left = node->Left();
+	Node_RBT* right = node->Right();
 
 	//자식 없는 경우
 	/*if(left == nil && right == nil)
@@ -359,7 +359,7 @@ void RedBlackTree::DestroyRecursive(Node * node)
 	SafeDelete(node);
 }
 
-void RedBlackTree::PrintRecursive(Node * node,int depth,int blackCount)
+void RedBlackTree::PrintRecursive(Node_RBT * node,int depth,int blackCount)
 {
 	//탈출조건
 	if(node == nil)
@@ -367,7 +367,7 @@ void RedBlackTree::PrintRecursive(Node * node,int depth,int blackCount)
 		return;
 	}
 	//노드 색상이 검정이면 blackCount 증가.
-	if(node -> GetColor() == Node::Color::Black)
+	if(node -> GetColor() == Color_RBTNode::Black)
 	{
 		++blackCount;
 	}
@@ -409,7 +409,7 @@ void RedBlackTree::PrintRecursive(Node * node,int depth,int blackCount)
 	}
 
 	// 노드 색상에 따른 콘솔 설정.
-	if(node->GetColor() == Node::Color::Red)
+	if(node->GetColor() == Color_RBTNode::Red)
 	{
 		SetTextColor(TextColor::Red);
 	}
@@ -439,24 +439,24 @@ void SetTextColor(TextColor color)
 	static HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(console,(int)color);
 }
-void RedBlackTree::RestructureAfterInsert(Node* newNode)
+void RedBlackTree::RestructureAfterInsert(Node_RBT* newNode)
 {
 	//부모가 빨간색인 경우, (Red-Red Conflict)
-	while(newNode != root && newNode ->Parent() ->GetColor() == Node::Color::Red)
+	while(newNode != root && newNode ->Parent() ->GetColor() == Color_RBTNode::Red)
 	{
 		//삼촌구하기 - 왼쪽인 경우
 		if(newNode->Parent() ==newNode->Parent()->Parent()->Left())
 		{
 			//삼촌
-			Node* uncle = newNode-> Parent() ->Parent()->Right();
+			Node_RBT* uncle = newNode-> Parent() ->Parent()->Right();
 
 			//삼촌노드가 빨간색 일 때 - Case1.
 			//해결 : 부모와 삼촌을 Black,할아버지를 Red로 변경 후,할아버지 기준으로 다시 검사
-			if(uncle -> GetColor() == Node::Color::Red())
+			if(uncle -> GetColor() == Color_RBTNode::Red())
 			{
-				newNode -> Parent() ->SetColor(Node::Color::Black);
-				uncle->SetColor(Node::Color::Black);
-				newNode->Parent()->Parent()->SetColor(Node::Color::Red);
+				newNode -> Parent() ->SetColor(Color_RBTNode::Black);
+				uncle->SetColor(Color_RBTNode::Black);
+				newNode->Parent()->Parent()->SetColor(Color_RBTNode::Red);
 
 				newNode=newNode->Parent()->Parent();
 				continue;
@@ -474,8 +474,8 @@ void RedBlackTree::RestructureAfterInsert(Node* newNode)
 			}
 
 			//해결 3:부모와 일치할때 -일직선 일 떄,
-			newNode -> Parent()->SetColor(Node::Color::Black);
-			newNode ->Parent()->Parent()->SetColor(Node::Color::Red);
+			newNode -> Parent()->SetColor(Color_RBTNode::Black);
+			newNode ->Parent()->Parent()->SetColor(Color_RBTNode::Red);
 
 			RotateToRight(newNode->Parent()->Parent());
 		}
@@ -483,15 +483,15 @@ void RedBlackTree::RestructureAfterInsert(Node* newNode)
 		else
 		{
 			//삼촌
-			Node* uncle = newNode-> Parent() ->Parent()->Left();
+			Node_RBT* uncle = newNode-> Parent() ->Parent()->Left();
 
 			//삼촌노드가 빨간색 일 때 - Case1.
 			//해결 : 부모와 삼촌을 Black,할아버지를 Red로 변경 후,할아버지 기준으로 다시 검사
-			if(uncle -> GetColor() == Node::Color::Red())
+			if(uncle -> GetColor() == Color_RBTNode::Red())
 			{
-				newNode -> Parent() ->SetColor(Node::Color::Black);
-				uncle->SetColor(Node::Color::Black);
-				newNode->Parent()->Parent()->SetColor(Node::Color::Red);
+				newNode -> Parent() ->SetColor(Color_RBTNode::Black);
+				uncle->SetColor(Color_RBTNode::Black);
+				newNode->Parent()->Parent()->SetColor(Color_RBTNode::Red);
 
 				newNode=newNode->Parent()->Parent();
 				continue;
@@ -509,27 +509,27 @@ void RedBlackTree::RestructureAfterInsert(Node* newNode)
 			}
 
 			//해결 3:부모와 일치할때 -일직선 일 떄,
-			newNode -> Parent()->SetColor(Node::Color::Black);
-			newNode ->Parent()->Parent()->SetColor(Node::Color::Red);
+			newNode -> Parent()->SetColor(Color_RBTNode::Black);
+			newNode ->Parent()->Parent()->SetColor(Color_RBTNode::Red);
 
 			RotateToLeft(newNode->Parent()->Parent());
 		}
 	}
 
 	//루트노드는 블랙
-	root->SetColor(Node::Color::Black);
+	root->SetColor(Color_RBTNode::Black);
 }
 
-void RedBlackTree::RestructureAfterRemove(Node * node)
+void RedBlackTree::RestructureAfterRemove(Node_RBT * node)
 {
 	//더블 블랙 문제 해결.
 	while(node->Parent() != nullptr
-		&& node->GetColor() == Node::Color::Black)
+		&& node->GetColor() == Color_RBTNode::Black)
 	{
 		//형제 노드 구하기.
 		if(node == node->Parent() ->Left())
 		{
-			Node* sibling = node->Parent() ->Right();
+			Node_RBT* sibling = node->Parent() ->Right();
 			if(sibling == nil)
 			{
 				break;
@@ -537,10 +537,10 @@ void RedBlackTree::RestructureAfterRemove(Node * node)
 
 			//case1 -> 형제 노드가 빨간색 일 때.
 			// //해결 : 형제 노드를 black - 부모를 red 로 바꿔, 부모 기준 좌 또는 우 회전.
-			if(sibling -> GetColor() == Node::Color::Red)
+			if(sibling -> GetColor() == Color_RBTNode::Red)
 			{
-				sibling -> SetColor(Node::Color::Black);
-				node->Parent()->SetColor(Node::Color::Red);
+				sibling -> SetColor(Color_RBTNode::Black);
+				node->Parent()->SetColor(Color_RBTNode::Red);
 
 				//좌회전
 				RotateToLeft(node->Parent());
@@ -549,21 +549,21 @@ void RedBlackTree::RestructureAfterRemove(Node * node)
 
 			//case2 : 형제 노드 검정색 - 자식들 다 검정색 일때
 			//형제 노드 red , 부모를 새로운 노드로 설중 후, 다시 검사
-			if(sibling ->Left() -> GetColor() == Node::Color::Black
-				&& sibling ->Right() -> GetColor() ==Node:: Color::Black
+			if(sibling ->Left() -> GetColor() == Color_RBTNode::Black
+				&& sibling ->Right() -> GetColor() == Color_RBTNode::Black
 				)
 			{
-				sibling -> SetColor(Node::Color::Red);
+				sibling -> SetColor(Color_RBTNode::Red);
 				node = node -> Parent();
 				continue;
 			}
 
 			//case3 : 형제 노드 검정색 - 형제 왼쪽 자식 빨강색
 			//해결 : 형제 왼쪽자식 black - 형제 red 로 변경 후, 형제 기준 우 회전.
-			if(sibling -> Left()->GetColor() ==Node:: Color:: Red)
+			if(sibling -> Left()->GetColor() == Color_RBTNode:: Red)
 			{
-				sibling->Left()->SetColor(Node::Color::Black);
-				sibling->SetColor(Node::Color::Red);
+				sibling->Left()->SetColor(Color_RBTNode::Black);
+				sibling->SetColor(Color_RBTNode::Red);
 
 				RotateToRight(sibling);
 
@@ -573,18 +573,18 @@ void RedBlackTree::RestructureAfterRemove(Node * node)
 
 			//case4 : 형제 노드 검정색 - 형제 오늘쪽 자식 빨강색
 			//해결 : 형제 부모와 같은 색 - 부모를 black - 형제 오른쪽 자식을 BlacK  으로 변경 후, 부모기준 좌회전.
-			if(sibling->Right()->GetColor () == Node::Color::Red)
+			if(sibling->Right()->GetColor () == Color_RBTNode::Red)
 			{
 				sibling ->SetColor(sibling->Parent()->GetColor());
-				sibling ->Parent()->SetColor(Node::Color::Black);
-				sibling->Right()->SetColor(Node::Color::Black);
+				sibling ->Parent()->SetColor(Color_RBTNode::Black);
+				sibling->Right()->SetColor(Color_RBTNode::Black);
 				RotateToLeft(node->Parent());
 			}
 
 			continue;
 		}
 
-		Node* sibling = node->Parent() ->Left();
+		Node_RBT* sibling = node->Parent() ->Left();
 		if(sibling == nil)
 		{
 			break;
@@ -592,10 +592,10 @@ void RedBlackTree::RestructureAfterRemove(Node * node)
 
 		//case1 -> 형제 노드가 빨간색 일 때.
 		// //해결 : 형제 노드를 black - 부모를 red 로 바꿔, 부모 기준 좌 또는 우 회전.
-		if(sibling -> GetColor() == Node::Color::Red)
+		if(sibling -> GetColor() == Color_RBTNode::Red)
 		{
-			sibling -> SetColor(Node::Color::Black);
-			node->Parent()->SetColor(Node::Color::Red);
+			sibling -> SetColor(Color_RBTNode::Black);
+			node->Parent()->SetColor(Color_RBTNode::Red);
 
 			//좌회전
 			RotateToRight(node->Parent());
@@ -604,21 +604,21 @@ void RedBlackTree::RestructureAfterRemove(Node * node)
 
 		//case2 : 형제 노드 검정색 - 자식들 다 검정색 일때
 		//형제 노드 red , 부모를 새로운 노드로 설중 후, 다시 검사
-		if(sibling ->Right() -> GetColor() == Node::Color::Black
-			&& sibling ->Left() -> GetColor() == Node::Color::Black
+		if(sibling ->Right() -> GetColor() == Color_RBTNode::Black
+			&& sibling ->Left() -> GetColor() == Color_RBTNode::Black
 			)
 		{
-			sibling -> SetColor(Node::Color::Red);
+			sibling -> SetColor(Color_RBTNode::Red);
 			node = node -> Parent();
 			continue;
 		}
 
 		//case3 : 형제 노드 검정색 - 형제 오른쪽 자식 빨강색
 		//해결 : 형제 오늘쪽자식 black - 형제 red 로 변경 후, 형제 기준 좌 회전.
-		if(sibling -> Right()->GetColor() == Node::Color:: Red)
+		if(sibling -> Right()->GetColor() == Color_RBTNode:: Red)
 		{
-			sibling->Right()->SetColor(Node::Color::Black);
-			sibling->SetColor(Node::Color::Red);
+			sibling->Right()->SetColor(Color_RBTNode::Black);
+			sibling->SetColor(Color_RBTNode::Red);
 
 			RotateToLeft(sibling);
 
@@ -628,15 +628,15 @@ void RedBlackTree::RestructureAfterRemove(Node * node)
 
 		//case4 : 형제 노드 검정색 - 형제 왼쪽 자식 빨강색
 		//해결 : 형제 부모와 같은 색 - 부모를 black - 형제 왼쪽 자식을 BlacK  으로 변경 후, 부모기준 우 회전.
-		if(sibling->Left()->GetColor () == Node::Color::Red)
+		if(sibling->Left()->GetColor () == Color_RBTNode::Red)
 		{
 			sibling ->SetColor(sibling->Parent()->GetColor());
-			sibling ->Parent()->SetColor(Node::Color::Black);
-			sibling->Left()->SetColor(Node::Color::Black);
+			sibling ->Parent()->SetColor(Color_RBTNode::Black);
+			sibling->Left()->SetColor(Color_RBTNode::Black);
 			RotateToRight(node->Parent());
 
 			node=root;
 		}
 	}
-	node->SetColor(Node::Color::Black);
+	node->SetColor(Color_RBTNode::Black);
 }

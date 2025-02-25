@@ -4,6 +4,9 @@ RBTLevel::RBTLevel()
 {
 	//레드블랙 트리 생성
 	Initialization("../Assets/InitData.txt",&tree);
+
+	//노드 생성할때, 액터 생성하고,
+	//위치변경할때 마다, 애니메이션준다,
 }
 
 void RBTLevel::Update(float deltaTime)
@@ -77,6 +80,7 @@ void RBTLevel::Initialization(const char * path,RedBlackTree * tree)
 	for(auto data : datas)
 	{
 		tree->Insert(data);
+		//Insert(tree,data);
 	}
 
 	// 초기 데이터를 설정한 후의 데이터 출력.
@@ -86,8 +90,12 @@ void RBTLevel::Initialization(const char * path,RedBlackTree * tree)
 	std::cout << "\n";
 }
 
+void RBTLevel::Insert(RedBlackTree * tree,std::vector<int> datas)
+{
+	//	if(Find(data,))
+}
 void RBTLevel::Print(RedBlackTree * tree)
 {
-	tree.root
-		PrintRecursive(root,depth,blackCount);
+	//tree.root
+	//	PrintRecursive(root,depth,blackCount);
 }
