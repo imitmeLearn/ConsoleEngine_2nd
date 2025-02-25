@@ -4,6 +4,8 @@
 
 class Path: public DrawableActor
 {
+	RTTI_DECLARATIONS(Path,DrawableActor)
+
 public:
 	Path();
 	Path(const Vector2& position);

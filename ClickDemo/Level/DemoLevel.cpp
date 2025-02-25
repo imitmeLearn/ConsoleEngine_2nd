@@ -103,17 +103,23 @@ void DemoLevel::DrawPath()
 	{
 		if(actor)
 		{
-			if(actor->As<Player>()
+			/*if(actor->As<Player>()
 			|| actor->As<Start>()
-			)//|| actor->As<Wall>())
+				|| actor->As<Ground>()
+				|| actor->As<Wall>()
+			)
 			{
 				continue;
-			}
+			}*/
 
-			Engine::Get().DestroyActor(actor);
-			//delete actor;
-			//actor = nullptr;
-			continue;
+			Path* path = actor->As<Path>();
+			if(path)
+			{
+				Engine::Get().DestroyActor(actor);
+				//delete actor;
+				//actor = nullptr;
+				continue;
+			}
 		}
 	}
 	//엑터 생성
@@ -121,20 +127,9 @@ void DemoLevel::DrawPath()
 	{
 		for(int x = 0; x < grid[0].size(); ++x)
 		{
-			// 벽
-			if(grid[y][x] == 1)
-			{
-				Wall* wall = new Wall(Vector2(x,y));
-				AddActor(wall);
-			}
-			// 빈 공간.
-			else if(grid[y][x] == 0)
-			{
-				Ground* gound = new Ground(Vector2(x,y));
-				AddActor(gound);
-			}
 			// 경로.
-			else if(grid[y][x] == 2)
+			if(grid[y][x] == 2)
+				//else if(grid[y][x] == 2)
 			{
 				Path* path = new Path(Vector2(x,y));
 				AddActor(path);
@@ -148,7 +143,7 @@ void DemoLevel::DrawPath()
 	//isDraw = true;
 }
 
-void DemoLevel::DrawMaps()
+void DemoLevel::InitSetMapActors()
 {
 	//엑터 생성
 	for(int y = 0; y < grid.size(); ++y)
@@ -160,18 +155,14 @@ void DemoLevel::DrawMaps()
 			{
 				Wall* wall = new Wall(Vector2(x,y));
 				AddActor(wall);
+				maps.PushBack(wall->As<DrawableActor>());
 			}
 			// 빈 공간.
 			else if(grid[y][x] == 0)
 			{
 				Ground* gound = new Ground(Vector2(x,y));
 				AddActor(gound);
-			}
-			// 경로.
-			else if(grid[y][x] == 2)
-			{
-				Path* path = new Path(Vector2(x,y));
-				AddActor(path);
+				maps.PushBack(gound->As<DrawableActor>());
 			}
 		}
 	}
@@ -235,7 +226,7 @@ DemoLevel::DemoLevel()
 	//startNode = new Node(start->Position());
 	//goalNode = new Node(goal->Position());
 
-	DrawMaps();
+	InitSetMapActors();
 	origin_grid = grid;
 }
 
@@ -246,24 +237,22 @@ void DemoLevel::Update(float deltaTime)
 
 void DemoLevel::Draw()
 {
+	if(maps.Size() >0)
+	{
+		for(auto* actor : maps)
+		{
+			if(actor)
+			{
+				actor -> Draw();	//맵 액터 그리기
+				continue;
+			}
+		}
+	}
 	//	Game::Get().SetCursorPosition(0,0);			//1단계 : 콘솔 좌표 옮기기'
-	List<Wall*> walls;
-	List <Ground*> grounds;
 	List <Path*> paths;
 
 	for(auto* actor : actors)
 	{
-		Ground* ground = actor->As<Ground>();
-		if(ground)
-		{
-			grounds.PushBack(ground);
-		}
-		Wall* wall = actor->As<Wall>();
-		if(wall)
-		{
-			walls.PushBack(wall);
-		}
-
 		Path* path = actor->As<Path>();
 		if(path)
 		{
@@ -271,18 +260,9 @@ void DemoLevel::Draw()
 		}
 	}
 
-	for(auto* actor:grounds)
-	{
-		actor -> Draw();	//맵 액터 그리기
-	}
-	for(auto* actor:walls)
-	{
-		actor -> Draw();
-	}
-
 	for(auto* actor:paths)
 	{
-		actor -> Draw();	//맵 액터 그리기
+		actor -> Draw();
 	}
 
 	if(start)

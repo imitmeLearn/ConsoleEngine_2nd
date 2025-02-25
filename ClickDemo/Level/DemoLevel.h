@@ -31,7 +31,7 @@ private:
 	//void SetActors(std::vector<std::vector<int>>& grid);
 	//void SetActors(std::vector<std::vector<int>>& grid,const std::vector<Node*>& path);
 	//void DisplayGridWithPath(std::vector<std::vector<int>>& grid,std::vector<Node*>& path);
-	void DrawMaps();
+	void InitSetMapActors();
 public:
 	DrawableActor* start;
 	DrawableActor* goal;
@@ -41,4 +41,7 @@ public:
 	std::vector<std::vector<int>> origin_grid;
 
 	//	bool isDraw;
+	//	bool isInit=false;
+
+	List <DrawableActor*> maps;	//벽 땅 액터 배열
 };

@@ -5,6 +5,8 @@
 
 class Start: public DrawableActor
 {
+	RTTI_DECLARATIONS(Start,DrawableActor)
+
 public:
 	Start();
 	Start(DemoLevel* level);
