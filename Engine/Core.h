@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <iostream>
 #include <Windows.h>
@@ -7,16 +7,17 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
-// »ö»ó ¿­°ÅÇü.
-enum class Color : unsigned short
+// ìƒ‰ìƒ ì—´ê±°í˜•.
+enum class Color: unsigned short
 {
 	Red = FOREGROUND_RED,
 	Green = FOREGROUND_GREEN,
 	Blue = FOREGROUND_BLUE,
 	White = Red + Green + Blue,
+	Black = FOREGROUND_INTENSITY + Red + Green + Blue,
 };
 
-// Ä¿¼­ÀÇ Á¾·ù¸¦ ¼³Á¤ÇÒ ¶§ »ç¿ëÇÒ ¿­°ÅÇü.
+// ì»¤ì„œì˜ ì¢…ë¥˜ë¥¼ ì„¤ì •í•  ë•Œ ì‚¬ìš©í•  ì—´ê±°í˜•.
 enum class CursorType
 {
 	NoCursor,
@@ -24,58 +25,58 @@ enum class CursorType
 	NormalCursor
 };
 
-// ÄÜ¼Ö »ö»ó ¼³Á¤ ÇÔ¼ö.
+// ì½˜ì†” ìƒ‰ìƒ ì„¤ì • í•¨ìˆ˜.
 //inline void SetColor(Color color)
 //{
 //	SetConsoleTextAttribute(
-//		GetStdHandle(STD_OUTPUT_HANDLE), 
+//		GetStdHandle(STD_OUTPUT_HANDLE),
 //		(int)color
 //	);
 //}
 
-// ¸Ş¸ğ¸® »èÁ¦ ÇÔ¼ö.
+// ë©”ëª¨ë¦¬ ì‚­ì œ í•¨ìˆ˜.
 template<typename T>
 void SafeDelete(T* pointer)
 {
-	if (pointer != nullptr)
+	if(pointer != nullptr)
 	{
 		delete pointer;
 		pointer = nullptr;
 	}
 }
 
-// ·Î±× ÇÔ¼ö.
+// ë¡œê·¸ í•¨ìˆ˜.
 template<typename... T>
-void Log(const char* format, T&&... args)
+void Log(const char* format,T&&... args)
 {
 	char buffer[1024];
-	snprintf(buffer, 1024, format, args ...);
+	snprintf(buffer,1024,format,args ...);
 	std::cout << buffer;
 }
 
-// ·£´ı ÇÔ¼ö.
-inline int Random(int min, int max)
+// ëœë¤ í•¨ìˆ˜.
+inline int Random(int min,int max)
 {
-	// Â÷ÀÌ ±¸ÇÏ±â.
+	// ì°¨ì´ êµ¬í•˜ê¸°.
 	int diff = (max - min) + 1;
 	return ((diff * rand()) / (RAND_MAX + 1)) + min;
 }
 
-// min~max »çÀÌÀÇ ·£´ı °ªÀ» ¹İÈ¯ÇØÁÖ´Â ÇÔ¼ö.
-inline float RandomPercent(float min, float max)
+// min~max ì‚¬ì´ì˜ ëœë¤ ê°’ì„ ë°˜í™˜í•´ì£¼ëŠ” í•¨ìˆ˜.
+inline float RandomPercent(float min,float max)
 {
 	float random = (float)(rand() / (float)RAND_MAX);
 	return random * (max - min) + min;
 }
 
-// ¸Ş¸ğ¸® ´©¼ö È®ÀÎÇÒ ¶§ »ç¿ëÇÏ´Â ÇÔ¼ö.
+// ë©”ëª¨ë¦¬ ëˆ„ìˆ˜ í™•ì¸í•  ë•Œ ì‚¬ìš©í•˜ëŠ” í•¨ìˆ˜.
 inline void CheckMemoryLeak()
 {
 	// https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/find-memory-leaks-using-the-crt-library?view=msvc-170
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
 
-// µğ¹ö±ë ¿ëµµ.
+// ë””ë²„ê¹… ìš©ë„.
 #ifdef _DEBUG
 #define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
 // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
@@ -109,9 +110,9 @@ inline void CheckMemoryLeak()
 #define VK_CLEAR          0x0C
 #define VK_RETURN         0x0D
 
-/*
-* 0x0E - 0x0F : unassigned
-*/
+  /*
+  * 0x0E - 0x0F : unassigned
+  */
 
 #define VK_SHIFT          0x10
 #define VK_CONTROL        0x11
@@ -153,19 +154,19 @@ inline void CheckMemoryLeak()
 #define VK_DELETE         0x2E
 #define VK_HELP           0x2F
 
-/*
-* VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
-* 0x3A - 0x40 : unassigned
-* VK_A - VK_Z are the same as ASCII 'A' - 'Z' (0x41 - 0x5A)
-*/
+  /*
+  * VK_0 - VK_9 are the same as ASCII '0' - '9' (0x30 - 0x39)
+  * 0x3A - 0x40 : unassigned
+  * VK_A - VK_Z are the same as ASCII 'A' - 'Z' (0x41 - 0x5A)
+  */
 
 #define VK_LWIN           0x5B
 #define VK_RWIN           0x5C
 #define VK_APPS           0x5D
 
-/*
-* 0x5E : reserved
-*/
+  /*
+  * 0x5E : reserved
+  */
 
 #define VK_SLEEP          0x5F
 
@@ -201,15 +202,15 @@ inline void CheckMemoryLeak()
 #define VK_NUMLOCK        0x90
 #define VK_SCROLL         0x91
 
-/*
-* 0x97 - 0x9F : unassigned
-*/
+  /*
+  * 0x97 - 0x9F : unassigned
+  */
 
-/*
-* VK_L* & VK_R* - left and right Alt, Ctrl and Shift virtual keys.
-* Used only as parameters to GetAsyncKeyState() and GetKeyState().
-* No other API or message will distinguish left and right keys in this way.
-*/
+  /*
+  * VK_L* & VK_R* - left and right Alt, Ctrl and Shift virtual keys.
+  * Used only as parameters to GetAsyncKeyState() and GetKeyState().
+  * No other API or message will distinguish left and right keys in this way.
+  */
 #define VK_LSHIFT         0xA0
 #define VK_RSHIFT         0xA1
 #define VK_LCONTROL       0xA2

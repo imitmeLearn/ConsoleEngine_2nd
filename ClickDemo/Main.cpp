@@ -4,6 +4,7 @@
 
 #include "Engine/Engine.h"
 #include "Level/DemoLevel.h"
+#include "Level/RBTLevel.h"
 
 #include "Algorithm\AStar.h"
 
@@ -13,6 +14,7 @@ int main()
 
 	Engine engine;
 	engine.LoadLevel(new DemoLevel());
+	engine.LoadLevel(new RBTLevel());
 	engine.Run();
 
 	/*
