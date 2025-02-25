@@ -7,6 +7,8 @@ RBTLevel::RBTLevel()
 
 	//노드 생성할때, 액터 생성하고,
 	//위치변경할때 마다, 애니메이션준다,
+
+	Init();
 }
 
 void RBTLevel::Update(float deltaTime)
@@ -20,8 +22,22 @@ void RBTLevel::Update(float deltaTime)
 }
 
 void RBTLevel::Draw()
-{}
+{
+	for(auto* actor : actors)
+	{
+		actor->Draw();
+	}
+}
+void RBTLevel::Init()
+{
+	NodeRBTActor* node = new NodeRBTActor(Vector2(5,5));
 
+	AddActor(node);
+	nodeRBTs.PushBack(node);
+
+	node->SetReImage("┌────┐\n│0000│\n└────┘");
+	node->SetPosition(Vector2(10,20));
+}
 void RBTLevel::Initialization(const char * path,RedBlackTree * tree)
 {
 	if(tree == nullptr)

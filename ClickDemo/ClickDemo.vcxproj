@@ -187,6 +187,7 @@
     <ClCompile Include="Actor\AStarMap\Ground.cpp" />
     <ClCompile Include="Actor\AStarMap\Wall.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\RBT\NodeRBTActor.cpp" />
     <ClCompile Include="Actor\Start.cpp" />
     <ClCompile Include="Algorithm\AStar.cpp" />
     <ClCompile Include="Algorithm\RBT\Node_RBT.cpp" />
@@ -201,7 +202,7 @@
     <ClInclude Include="Actor\AStarMap\Ground.h" />
     <ClInclude Include="Actor\AStarMap\Wall.h" />
     <ClInclude Include="Actor\Player.h" />
-    <ClInclude Include="Actor\RBT\RBTNodeActor.h" />
+    <ClInclude Include="Actor\RBT\NodeRBTActor.h" />
     <ClInclude Include="Actor\Start.h" />
     <ClInclude Include="Algorithm\AStar.h" />
     <ClInclude Include="Algorithm\RBT\Node_RBT.h" />

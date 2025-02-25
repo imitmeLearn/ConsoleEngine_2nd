@@ -13,7 +13,7 @@ int main()
 	_CrtSetDbgFlag (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	Engine engine;
-	engine.LoadLevel(new DemoLevel());
+	//engine.LoadLevel(new DemoLevel());
 	engine.LoadLevel(new RBTLevel());
 	engine.Run();
 
@@ -23,5 +23,12 @@ int main()
 	1. 입력을 확인하고
 	2. s e 객체 위치를 받고
 	3. s e 객체 Astar 알고리즘에 따라 경로를 그리기
+	*/
+
+	/*
+	//노드 생성할때, 액터 생성하고,
+	//위치확인하고 확정할때 마다, 애니메이션준다,
+
+	1.네모형태로 그림그릴 수 있는지 확인하기
 	*/
 }

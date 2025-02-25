@@ -196,6 +196,7 @@ void Engine::Draw(const Vector2& position,const char* image,Color color)
 	//	imageBuffer[index].Attributes = (unsigned long)color;
 	//}
 
+	//여러줄 만들기 위한 코드 추가
 	int x = position.x;
 	int y = position.y;
 	int screenWidth = screenSize.x;  // 화면 너비 가져오기
@@ -210,7 +211,8 @@ void Engine::Draw(const Vector2& position,const char* image,Color color)
 		} else {
 			// 화면 버퍼의 올바른 위치 계산
 			int index = (y * screenWidth) + (x + offsetX);
-			imageBuffer[index].Char.AsciiChar = image[i];
+			imageBuffer[index].Char.UnicodeChar  = image[i];
+			//imageBuffer[index].Char.AsciiChar = image[i];
 			imageBuffer[index].Attributes = (unsigned long)color;
 			offsetX++;  // 같은 줄에서 X 위치 증가
 		}

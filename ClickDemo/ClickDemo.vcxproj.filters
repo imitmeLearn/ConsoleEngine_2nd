@@ -51,6 +51,9 @@
     <ClCompile Include="Algorithm\RBT\Node_RBT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\RBT\NodeRBTActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Algorithm\Node.h">
@@ -89,7 +92,7 @@
     <ClInclude Include="Algorithm\RBT\Node_RBT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\RBT\RBTNodeActor.h">
+    <ClInclude Include="Actor\RBT\NodeRBTActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

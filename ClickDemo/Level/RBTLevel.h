@@ -3,6 +3,8 @@
 #include "Engine/Engine.h"
 
 #include "../Algorithm/RBT/RedBlackTree.h"
+#include "../Actor/RBT/NodeRBTActor.h"
+
 class DrawableActor;
 class RBTLevel: public Level
 {
@@ -13,10 +15,12 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Draw() override;
 
-	RedBlackTree	tree;
-
 private:
+	void Init();
 	void Initialization(const char * path,RedBlackTree * tree);
 	void Insert(RedBlackTree * tree,std::vector<int> datas);
 	void Print(RedBlackTree * tree);
+private:
+	RedBlackTree	tree;
+	List<NodeRBTActor*> nodeRBTs;
 };
