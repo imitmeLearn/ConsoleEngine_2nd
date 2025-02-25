@@ -35,6 +35,9 @@ void Player::Update(float deltaTime)
 		{
 			return;
 		}
+
+		if(refLevel->IsClickedOutofMap()) return;
+
 		position = Engine::Get().MousePosition();
 		refLevel->DrawPath();
 	}

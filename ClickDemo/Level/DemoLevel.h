@@ -26,6 +26,7 @@ public:
 
 	//경로그리기
 	void DrawPath();
+	bool IsClickedOutofMap();
 private:
 	//void SetActors();
 	//void SetActors(std::vector<std::vector<int>>& grid);

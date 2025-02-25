@@ -143,6 +143,27 @@ void DemoLevel::DrawPath()
 	//isDraw = true;
 }
 
+bool DemoLevel::IsClickedOutofMap()
+{
+	if(this->origin_grid.size() -1<  Engine::Get().MousePosition().y
+			|| this->origin_grid[0].size()-1 <  Engine::Get().MousePosition().x
+			)
+	{
+		auto checkc = this->origin_grid.size() <  Engine::Get().MousePosition().y
+			|| this->origin_grid[0].size()-1 <  Engine::Get().MousePosition().x
+			;
+		return true;
+	}
+	/*if(Engine::Get().ScreenSize().x > Engine::Get().MousePosition().x
+		||Engine::Get().ScreenSize().y > Engine::Get().MousePosition().y
+		)
+	{
+		return false;
+	}*/
+
+	return false;
+}
+
 void DemoLevel::InitSetMapActors()
 {
 	//엑터 생성
