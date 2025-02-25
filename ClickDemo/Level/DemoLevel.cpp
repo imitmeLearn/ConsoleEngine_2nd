@@ -142,7 +142,7 @@ void DemoLevel::DrawPath()
 		}
 	}
 
-	SafeDelete(startNode);	//startNode는 openList 들어가기에, 해당부에서 지워짐. //또지우면 오류남.
+	//SafeDelete(startNode);	//startNode는 openList 들어가기에, 해당부에서 지워짐. //또지우면 오류남.
 	SafeDelete(goalNode);	//startNode는 openList 들어가기에, 해당부에서 지워짐. // 목표 노드만 제거 /목표노드는 안지우기에, 안지우면, 메모리릭 남.
 
 	//isDraw = true;
