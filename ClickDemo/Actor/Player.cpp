@@ -27,6 +27,14 @@ void Player::Update(float deltaTime)
 
 	if(Engine::Get().GetKeyDown(VK_RBUTTON))
 	{
+		//if(!refLevel->isDraw) false;
+
+		//이미SE 생성된 위치에,재 생성 못하도록
+		if(refLevel->goal->Position() ==  Engine::Get().MousePosition()
+			||refLevel->start->Position() ==  Engine::Get().MousePosition())
+		{
+			return;
+		}
 		position = Engine::Get().MousePosition();
 		refLevel->DrawPath();
 	}

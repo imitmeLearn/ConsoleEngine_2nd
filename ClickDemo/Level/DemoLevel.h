@@ -36,7 +36,9 @@ public:
 	DrawableActor* start;
 	DrawableActor* goal;
 
-	AStar* aStar;
+	//AStar* aStar;
 
 	std::vector<std::vector<int>> origin_grid;
+
+	//	bool isDraw;
 };
