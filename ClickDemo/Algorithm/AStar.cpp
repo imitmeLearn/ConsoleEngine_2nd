@@ -196,7 +196,7 @@ bool AStar::HasVisited(int x,int y,float gCost)
 		if((node->position.x == x && node->position.y == y))
 		{
 			// 위치가 같고, 비용이 더 크면 방문할 이유가 없기 때문에 방문했다고 판단.
-			if(gCost > node->gCost)
+			if(gCost >= node->gCost)
 			{
 				return true;
 			}
@@ -209,25 +209,25 @@ bool AStar::HasVisited(int x,int y,float gCost)
 			}
 		}
 	}
-	//for(int ix = 0; ix < static_cast<int>(closedList.size()); ++ix)
-	//{
-	//	Node* node = closedList[ix];
-	//	if((node->position.x == x && node->position.y == y))
-	//	{
-	//		// 위치가 같고, 비용이 더 크면 방문할 이유가 없기 때문에 방문했다고 판단.
-	//		if(gCost > node->gCost)
-	//		{
-	//			return true;
-	//		}
+	for(int ix = 0; ix < static_cast<int>(closedList.size()); ++ix)
+	{
+		Node* node = closedList[ix];
+		if((node->position.x == x && node->position.y == y))
+		{
+			// 위치가 같고, 비용이 더 크면 방문할 이유가 없기 때문에 방문했다고 판단.
+			if(gCost >= node->gCost)
+			{
+				return true;
+			}
 
-	//		// 위치는 같지만, 비용이 작은 경우, 방문할 필요가 있으므로, 기존의 노드 삭제.
-	//		else
-	//		{
-	//			closedList.erase(closedList.begin() + ix);
-	//			SafeDelete(node);
-	//		}
-	//	}
-	//}
+			// 위치는 같지만, 비용이 작은 경우, 방문할 필요가 있으므로, 기존의 노드 삭제.
+			else
+			{
+				closedList.erase(closedList.begin() + ix);
+				SafeDelete(node);
+			}
+		}
+	}
 	// 리스트에 없으면 방문하지 않은 것으로 판단.
 	return false;
 }

@@ -48,44 +48,56 @@ void DemoLevel::DrawPath()
 {
 	AStar aStar;	//Astar 객체
 
-	grid = origin_grid; //grid 초기화
-	std::vector<Node*> path_node;
+	grid = origin_grid; //grid 초기화//선택한 영역이 벽인 경우에 사용
 
-	Node* startNode = nullptr;
-	Node* goalNode = nullptr;
+	// @Test.
+	Node* startNode = new Node(start->Position());
+	Node* goalNode = new Node(goal->Position());
+	grid[startNode->Position().y][startNode->Position().x] = 0;
+	grid[goalNode->Position().y][goalNode->Position().x] = 0;
 
-	grid[start->Position().y][start->Position().x] = 2;
-	grid[goal->Position().y][goal->Position().x] = 3;
+	//grid[start->Position().y][start->Position().x] = 2;
+	//grid[goal->Position().y][goal->Position().x] = 3;
 
-	for(int y = 0; y < (int)grid.size(); y++)
-	{
-		for(int x = 0; x < (int)grid[0].size(); x++)
-		{
-			//시작지점
-			if(grid[y][x] ==2)
-			{
-				startNode = new Node(start->Position());
-				grid[y][x] = 0;
-				continue;
-			}
+	//for(int y = 0; y < (int)grid.size(); y++) //클릭해서, s e 설정하니, 없어도 됨! 이전엔 맵에서 읽었어야 했기에 사용.
+	//{
+	//	for(int x = 0; x < (int)grid[0].size(); x++)
+	//	{
+	//		//시작지점
+	//		if(grid[y][x] ==2)
+	//		{
+	//			//startNode = new Node(start->Position());
+	//			startNode.SetPosition(start->Position());
+	//			grid[y][x] = 0;
+	//			continue;
+	//		}
 
-			if(grid[y][x] ==3)
-			{
-				goalNode = new Node(goal->Position());
-				grid[y][x] = 0;
-				continue;
-			}
-		}
-	}
-	path_node = aStar.FindPath(startNode,goalNode,grid);	//경로탐색
+	//		if(grid[y][x] ==3)
+	//		{
+	//			//goalNode = new Node(goal->Position());
+	//			goalNode.SetPosition(goal->Position());
+	//			grid[y][x] = 0;
+	//			continue;
+	//		}
+	//	}
+	//}
+
+	std::vector<Node*> path_node =aStar.FindPath(startNode,goalNode,grid);	//경로탐색
 
 	if(path_node.empty())
 	{
-		std::cout<<" 경로 못 찾음. \n";
+		SafeDelete(goalNode);
+		return;
+		//std::cout<<" 경로 못 찾음. \n";
 	}
 
-	std::cout << "경로 찾음.  탐색 경로:"<<'\n';
+	//std::cout << "경로 찾음.  탐색 경로:"<<'\n';
 
+	for(Node* node : path_node)
+	{
+		// 경로는 '2'로 표시.
+		grid[node->Position().y][node->Position().x] = 2;
+	}
 	// 액터 순회 후 삭제 요청된 액터를 처리. //초기화
 	for(auto* actor : actors)
 	{
@@ -93,22 +105,17 @@ void DemoLevel::DrawPath()
 		{
 			if(actor->As<Player>()
 			|| actor->As<Start>()
-			|| actor->As<Wall>())
+			)//|| actor->As<Wall>())
 			{
 				continue;
 			}
-			delete actor;
-			actor = nullptr;
+
+			Engine::Get().DestroyActor(actor);
+			//delete actor;
+			//actor = nullptr;
 			continue;
 		}
 	}
-
-	for(Node* node : path_node)
-	{
-		// 경로는 '2'로 표시.
-		grid[node->Position().y][node->Position().x] = 2;
-	}
-
 	//엑터 생성
 	for(int y = 0; y < grid.size(); ++y)
 	{
@@ -134,11 +141,11 @@ void DemoLevel::DrawPath()
 			}
 		}
 	}
-	aStar.~AStar();
 
-	startNode->~Node();
-	goalNode->~Node();
-	//SafeDelete(goalNode);	//목표 노드만 제거
+	SafeDelete(startNode);	//startNode는 openList 들어가기에, 해당부에서 지워짐. //또지우면 오류남.
+	SafeDelete(goalNode);	//startNode는 openList 들어가기에, 해당부에서 지워짐. // 목표 노드만 제거 /목표노드는 안지우기에, 안지우면, 메모리릭 남.
+
+	//isDraw = true;
 }
 
 void DemoLevel::DrawMaps()
