@@ -199,6 +199,24 @@ void DemoLevel::DrawPath()
 	//isDraw = true;
 }
 
+void DemoLevel::RemoveCurrPathActor(Vector2 curr)
+{
+	for(auto* actor : actors)
+	{
+		auto path = actor->As<Path>();
+		if(path)
+		{
+			if(path->Position() == curr)
+			{
+				Engine::Get().DestroyActor(actor);
+				//delete actor;
+				//actor = nullptr;
+				return;
+			}
+		}
+	}
+}
+
 bool DemoLevel::IsClickedOutofMap()
 {
 	//SE 를 클릭한 경우

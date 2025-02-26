@@ -24,7 +24,7 @@ public:
 private:
 	DemoLevel* refLevel = nullptr;
 	//Animation* animation = nullptr;
-	float speed = .0001f;
+	float speed = 10.f;
 	float yPosition = 0.f;
 	float xPosition = 0.f;
 	Vector2 direction = Vector2(0.f,0.f);

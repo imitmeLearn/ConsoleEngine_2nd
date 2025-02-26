@@ -96,27 +96,29 @@ void Start::Update(float deltaTime)
 //노드 기반
 void Start::PlayAnimation(float deltaTime)
 {
-	//auto node = refLevel->curr_path_node;
+	//내가 목표노드이면, 안그림
+	if(this->Position() == refLevel->goal->Position())
+	{
+		//refLevel-> RemoveCurrPathActor(this->Position());
 
-	//direction = Vector2(1,1);
+		return;
+	}
 
 	//다음노드가 목표노드 이거나
 	if(refLevel-> CheckNextNode(this->Position()) == refLevel->goal->Position())
 	{
+		refLevel-> RemoveCurrPathActor(this->Position());
+		SetPosition(refLevel->goal->Position());
+
 		return;
 	}
 
-	/*if(
-		isArrived(this->Position(),refLevel-> CheckNextNode(this->Position()))
-	)*/
-	{
-		direction= refLevel->GetNextNodeDir(this->Position());
-		//다음 노드 위치랑, 같음
-	}
+	direction= refLevel->GetNextNodeDir(this->Position());
+	//다음 노드 위치랑, 같음
 
 	tempPos = Position();
-	tempPos.x += direction.x ;// * speed * deltaTime;
-	tempPos.y += direction.y ;// * speed * deltaTime;
+	tempPos.x += direction.x;//  * speed * deltaTime;	//이거 실패....
+	tempPos.y += direction.y;// * speed * deltaTime;
 
 	if(tempPos.y < 0 || tempPos.y > refLevel->origin_grid.size()-1)
 	{
@@ -129,9 +131,9 @@ void Start::PlayAnimation(float deltaTime)
 		//tempPos.x -= direction.x ;
 	}
 
+	refLevel-> RemoveCurrPathActor(this->Position());//refLevel->DrawPath(); //이거 안돼.......ㅡㅜㅡㅜ왜 안되는지 모르겠어.....이거 확인 필요!!!
 	SetPosition(tempPos);
 
-	//refLevel->DrawPath();
 	//SetPosition(Vector2(
 	//	static_cast<int>(std::round(tempPos.x))
 	//	,static_cast<int>(std::round(tempPos.y))

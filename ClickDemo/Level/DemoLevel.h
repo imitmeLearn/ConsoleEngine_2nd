@@ -6,19 +6,19 @@
 #include <Actor\AStarMap\Path.h>
 //#include "etc/Animation.h"
 class DrawableActor;
-class DemoLevel: public Level
+class DemoLevel : public Level
 {
-	enum NodeType{
+	enum NodeType {
 		START = 0
-		,GOAL = 1
+		, GOAL = 1
 
-		,count
+		, count
 	};
 	// RTTI 정의.
-	RTTI_DECLARATIONS(DemoLevel,Level)
+	RTTI_DECLARATIONS(DemoLevel, Level)
 private:
 	//시작, 끝 객체 지정
-	void SetActor(NodeType type,Actor* actor);
+	void SetActor(NodeType type, Actor* actor);
 
 public:
 	DemoLevel();
@@ -27,6 +27,7 @@ public:
 
 	//경로그리기
 	void DrawPath();
+	void RemoveCurrPathActor(Vector2 curr);
 	bool IsClickedOutofMap();
 
 	//bool IsEmpty_curr_path_node ()
@@ -61,8 +62,8 @@ public:
 	//Vector2 GetGaolNodePosition();
 	//Vector2 GetNextNodeDir(const Vector2& start);
 	//Vector2 GetNextPathDir(const Vector2 & start);
-	Vector2 GetNextNodeDir(const Vector2 & start);
-	Vector2 GetDirection(Vector2 start,Vector2 end);
+	Vector2 GetNextNodeDir(const Vector2& start);
+	Vector2 GetDirection(Vector2 start, Vector2 end);
 private:
 	//void SetActors();
 	//void SetActors(std::vector<std::vector<int>>& grid);
@@ -85,7 +86,7 @@ public:
 	std::vector<Node*> curr_path_node;//노드정보 그대로 담아보기
 	std::vector<Node*> add_path_node;//노드정보 그대로 담아보기
 	std::vector<std::shared_ptr<Node>>  add_path_node_smart;//노드정보 그대로 담아보기
-	const std::vector<Node*>*  astar_path_node;//노드정보 그대로 담아보기
+	const std::vector<Node*>* astar_path_node;//노드정보 그대로 담아보기
 
 private:
 	//Animation* animation = nullptr;
