@@ -87,7 +87,7 @@ public:
 	std::vector<Node*> add_path_node;//노드정보 그대로 담아보기
 	std::vector<std::shared_ptr<Node>>  add_path_node_smart;//노드정보 그대로 담아보기
 	const std::vector<Node*>* astar_path_node;//노드정보 그대로 담아보기
-
+	bool isRemovePath = true;
 private:
 	//Animation* animation = nullptr;
 	int nodePointer = -1;

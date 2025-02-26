@@ -201,6 +201,10 @@ void DemoLevel::DrawPath()
 
 void DemoLevel::RemoveCurrPathActor(Vector2 curr)
 {
+	if(!isRemovePath)
+	{
+		return;
+	}
 	for(auto* actor : actors)
 	{
 		auto path = actor->As<Path>();
@@ -545,6 +549,11 @@ DemoLevel::DemoLevel()
 void DemoLevel::Update(float deltaTime)
 {
 	Super::Update(deltaTime);
+
+	if(Engine::Get().GetKeyDown(VK_SPACE))
+	{
+		isRemovePath = !isRemovePath;
+	}
 }
 
 void DemoLevel::Draw()
