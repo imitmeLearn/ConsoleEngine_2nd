@@ -38,7 +38,17 @@ void Player::Update(float deltaTime)
 
 		if(refLevel->IsClickedOutofMap()) return;
 
+		//애니메이션을 위한 노드 초기화
+		refLevel->StopAnimation();
+
 		position = Engine::Get().MousePosition();
 		refLevel->DrawPath();
 	}
+
+	//if(!refLevel->Check_curr_path_node())
+	//{
+	//	//애니메이션
+	//	yPosition += speed * deltaTime;
+	//	position.y = (int)yPosition;
+	//}
 }

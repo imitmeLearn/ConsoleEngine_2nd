@@ -2,6 +2,7 @@
 
 #include "Actor/DrawableActor.h"
 #include "Level\DemoLevel.h"
+//#include "../etc/Animation.h"
 
 class Player: public DrawableActor
 {
@@ -13,6 +14,7 @@ public:
 
 	virtual void Update(float deltaTime) override;
 
+public:
 private:
 	DemoLevel* refLevel = nullptr;
 };

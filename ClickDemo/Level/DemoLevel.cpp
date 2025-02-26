@@ -10,6 +10,7 @@
 #include "Algorithm\Node.h"
 
 #include "Game/Game.h"
+#include <string>
 
 void DemoLevel::SetActor(NodeType type,Actor* actor)
 {
@@ -103,6 +104,38 @@ void DemoLevel::DrawPath()
 	//}
 
 	std::vector<Node*> path_node =aStar.FindPath(startNode,goalNode,grid);	//경로탐색
+	//astar_path_node.clear();
+	//astar_path_node =& aStar.FindPath(startNode,goalNode,grid);	//경로탐색
+
+	//애니메이션을 위해, 현재 경로 저장
+//	Set_curr_path_node(path_node);
+
+	auto str = std::string(" test") + ": ";
+
+	add_path_node_smart.clear();
+	for(Node* node : path_node)
+	{
+		add_path_node_smart.push_back(std::make_shared<Node>(*node));
+
+		str= str + ("(" + std::to_string(node->Position().x) + " - " + std::to_string(node->Position().y) + ") -> ");
+	}
+	auto t = str;
+
+	//curr_path_node.clear();
+	//curr_path_node = path_node ;
+	//auto str = std::string(" test") + ": ";
+	//str = str +std::to_string(startNode->Position().x)+ ",  "+ std::to_string(startNode->Position().y)+ " :::  ";
+	//for(Node* node : curr_path_node)
+	//{
+	//	str= str + ("(" + std::to_string(node->Position().x) + " - " + std::to_string(node->Position().y) + ") -> ");
+	//}
+	//auto t = str;
+
+	//add_path_node.clear();
+	//for(const Node* node : path_node)
+	//{
+	//	add_path_node.push_back(new Node(*node));
+	//} //메모리릭
 
 	if(path_node.empty())
 	{
@@ -153,6 +186,9 @@ void DemoLevel::DrawPath()
 			{
 				Path* path = new Path(Vector2(x,y));
 				AddActor(path);
+
+				//애니메이션을 위해, 현재 액터 저장
+				//curr_paths.push_back(path);
 			}
 		}
 	}
@@ -202,6 +238,201 @@ bool DemoLevel::IsClickedOutofMap()
 	}
 
 	return false;
+}
+
+//void DemoLevel::PlayAnimation()
+//{
+//	animation = new Animation(curr_path_node);
+//	/*if(start)
+//	{
+//		start->As<Player>()->PlayAnimation();
+//	}*/
+//}
+
+void DemoLevel::StopAnimation()
+{
+	//초기화
+	//curr_paths.clear();
+	add_path_node_smart.clear();
+	//curr_path_node.clear();
+	nodePointer = -1;
+	/*if(animation)
+	{
+		delete animation;
+		animation = nullptr;
+	} else{
+		return;
+	}*/
+}
+
+void DemoLevel::NextNode()
+{
+	++nodePointer;
+}
+
+//Vector2 DemoLevel::NextNodeDirection(const Vector2 start)
+//{
+//	auto next = GetGaolNodePosition(++nodePointer);
+//	auto dir = GetDirection(start,next);
+//	dir = Normalize(dir);
+//	return	dir;
+//}
+
+Vector2 DemoLevel:: Normalize(Vector2 vec)
+{
+	float length = sqrtf(powf(vec.x,2) + powf(vec.y,2));
+	Vector2 newVec = Vector2(vec.x/length,vec.y/length);
+	return newVec;
+}
+//Vector2 DemoLevel::GetGaolNodePosition(int node)
+//{
+//	return 	curr_path_node[node]->Position();
+//}
+//Vector2 DemoLevel::GetGaolNodePosition()
+//{
+//	return 	curr_path_node[nodePointer]->Position();
+//}
+//Vector2 DemoLevel::GetNextPathDir(const Vector2& start)
+//{
+//	auto nextPos =	curr_paths[++nodePointer]->Position();
+//	int x = 0;
+//	int y = 0;
+//
+//	if(nextPos.x > start.x)
+//	{
+//		x = +1;
+//	}
+//
+//	if(nextPos.x < start.x)
+//	{
+//		x = -1;
+//	}
+//
+//	if(nextPos.y > start.y)
+//	{
+//		y = 1;
+//	}
+//
+//	if(nextPos.y < start.y)
+//	{
+//		y = -1;
+//	}
+//
+//	return Vector2(x,y);
+//}
+//Vector2 DemoLevel::GetNextPathDir(const Vector2& start)
+//{
+//	auto nextPos =	curr_path_node[++nodePointer]->Position();
+//	int x = 0;
+//	int y = 0;
+//
+//	if(nextPos.x > start.x)
+//	{
+//		x = +1;
+//	}
+//
+//	if(nextPos.x < start.x)
+//	{
+//		x = -1;
+//	}
+//
+//	if(nextPos.y > start.y)
+//	{
+//		y = 1;
+//	}
+//
+//	if(nextPos.y < start.y)
+//	{
+//		y = -1;
+//	}
+//
+//	return Vector2(x,y);
+//}
+
+bool DemoLevel::IsNextNodeGoal(Vector2 start)
+{
+	int nextNode = nodePointer+1;
+
+	//다음노드가 목표노드 이거나
+	if(add_path_node_smart[nextNode]->Position().x == goal->Position().x
+		&& add_path_node_smart[nextNode]->Position().y == goal->Position().y)
+	{
+		return true;
+	}
+	return false;
+}
+
+Vector2 DemoLevel::CheckNextNode(Vector2 start)
+{
+	int nextNode = nodePointer+1;
+
+	////다음노드가 목표노드 이거나
+	//if(add_path_node_smart[nextNode]->Position().x == goal->Position().x
+	//	&& add_path_node_smart[nextNode]->Position().y == goal->Position().y)
+	//{
+	//	return start;
+	//}
+
+	//다음노드가 있다면,
+	if(add_path_node_smart.size() <= nextNode)
+	{
+		return start;
+	}
+	return add_path_node_smart[nextNode]->Position();
+}
+
+void  DemoLevel::SetNextPointer()
+{
+	nodePointer +=1;
+}
+Vector2 DemoLevel::GetNextNodeDir(const Vector2& start)
+{
+	//auto test_astar = astar_path_node; ***//요거 정리ㅜㅜㅜㅠㅜㅜㅜㅠㅜㅜㅠㅜㅜㅜ #1
+	//auto _add_path_node = add_path_node; //가지고 있어
+	//auto _add_path_node_smart = add_path_node_smart; //가지고 있어
+	//auto test = curr_path_node; //없어
+
+	////auto nextPos =	test[++nodePointer]->Position();
+	//auto nextPos_r =	&test[++nodePointer]->Position();
+	auto check_start = start;
+	int x = 0;
+	int y = 0;
+	int nextNode = nodePointer + 1;
+	int nodeSize = add_path_node_smart.size();
+
+	//다음노드가 없다면, 방형 변화 없음
+	if(add_path_node_smart.size() <= nextNode)
+	{
+		return Vector2(0,0);
+	}
+	SetNextPointer();
+	auto nextPos = add_path_node_smart[nodePointer]->Position(); //가지고 있어
+	if(nextPos.x > start.x)
+	{
+		x = +1;
+	}
+
+	if(nextPos.x < start.x)
+	{
+		x = -1;
+	}
+
+	if(nextPos.y > start.y)
+	{
+		y = 1;
+	}
+
+	if(nextPos.y < start.y)
+	{
+		y = -1;
+	}
+
+	return Vector2(x,y);
+}
+Vector2 DemoLevel::GetDirection(Vector2 start,Vector2 end)
+{
+	auto dir =	end - start;
+	return dir;
 }
 
 void DemoLevel::InitSetMapActors()
@@ -289,6 +520,8 @@ DemoLevel::DemoLevel()
 
 	InitSetMapActors();
 	origin_grid = grid;
+
+	//aStar = new AStar();
 }
 
 void DemoLevel::Update(float deltaTime)
@@ -326,12 +559,12 @@ void DemoLevel::Draw()
 		actor -> Draw();
 	}
 
-	if(start)
-	{
-		start->Draw();
-	}
 	if(goal)
 	{
 		goal->Draw();
+	}
+	if(start)
+	{
+		start->Draw();
 	}
 }
