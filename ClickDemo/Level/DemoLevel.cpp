@@ -48,21 +48,21 @@ void DemoLevel::SetActor(NodeType type,Actor* actor)
 //};						//맵 끊은 경우
 std::vector<std::vector<int>> grid =
 {
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1},
-	{1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,1},
-	{1,1,1,0,0,1,0,0,0,1,1,1,0,0,1,1,1,0,1,1,0,0,0,0,1,1,1,0,0,0,1,1},
-	{1,0,0,0,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,1,1,0,0,1,1},
-	{1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,1,1},
-	{1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,1,1},
-	{1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,1,1,1,1},
-	{1,0,0,0,1,1,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1},
-	{1,0,0,0,1,0,0,0,0,0,0,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1},
-	{1,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1},
-	{1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,1,1},
-	{1,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,1,1},
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,0,0,1},
+	{1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,1},
+	{1,1,1,0,0,1,0,0,0,1,1,1,0,0,1,1,1,0,1,1,0,0,0,0,1,1,1,0,0,0,1,1,0,0,0,1},
+	{1,0,0,0,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,1,1,0,0,1,1,0,0,0,1},
+	{1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,1,1,0,0,0,1},
+	{1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,1,1,0,0,0,1},
+	{1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,1},
+	{1,0,0,0,1,1,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1,0,0,0,1},
+	{1,0,0,0,1,0,0,0,0,0,0,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,1},
+	{1,1,1,1,1,0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1,1,0,0,1,0,0,0,1},
+	{1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,1,1,0,0,0,1},
+	{1,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,1,1,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 };
 
 void DemoLevel::DrawPath()
@@ -479,6 +479,98 @@ void DemoLevel::InitSetMapActors()
 	}
 }
 
+//"../Assets/Maps/MapABC.txt"
+
+void DemoLevel::FileLoad(const char* str)
+{
+	FILE* file = nullptr;
+	fopen_s(&file,str,"rb");		//원슬래시는 1개**
+
+	if(file == nullptr)
+	{
+		std :: cout << "맵 파일 열기 실패. \n";
+
+		__debugbreak();
+		return;
+	}
+
+	fseek(file,0,SEEK_END);			//파일 읽기, 끝위치로 이동
+	size_t readSize = ftell(file);	//이동한 위치의 FP 가져오기
+
+	rewind(file);	//FP 원위치하는! 같은거// SET/ / fseek(file,0,SEEK_SET)//파일 읽기, 끝위치로 이동
+
+	char* buffer = new char[readSize +1];	//파일 읽어서 버퍼에 담기
+	size_t bytesRead =	fread(buffer,1,readSize,file);
+	if(readSize != bytesRead)
+	{
+		std::cout << "읽어온 크기가 다름 \n";
+		__debugbreak();
+		return ;
+	}
+
+	buffer[readSize] = '\0';
+
+	int index=0;//파일 읽을 때 사용할 인덱스
+	int xPosition = 0;
+	int yPosition = 0;
+
+	//맵 재생성을 위한 초기화 ->//@Test 오류있음. //todo: godi go
+		//maps=nullptr;
+	for(auto* map : maps)
+	{
+		map = nullptr;
+	}
+
+	for(auto* actor : actors)
+	{
+		if(actor)
+		{
+			if(/*actor->As<Player>()*/
+				/*|| actor->As<Start>()*/
+				actor->As<Path>()
+				|| actor->As<Ground>()
+				|| actor->As<Wall>()
+			)
+			{
+				Engine::Get().DestroyActor(actor);
+				continue;
+			}
+		}
+	}
+
+	while(index < (int)bytesRead)	//해석 파씽
+	{
+		char mapChar = buffer[index++];	//한 문자씩 읽기
+
+		if(mapChar == '\n')
+		{
+			++yPosition;
+			xPosition =0;
+			continue;
+		}
+
+		if(mapChar == '1')
+		{
+			Wall * wall = new Wall(Vector2(xPosition,yPosition));
+			AddActor(wall);
+			maps.PushBack(wall);
+		}
+
+		else if(mapChar == '0')
+		{
+			Ground* ground =  new Ground(Vector2(xPosition,yPosition));
+			AddActor(ground);
+			maps.PushBack(ground);
+		}
+
+		++xPosition;
+	}
+
+	delete[] buffer;	//버퍼 삭제
+
+	fclose(file);		//파일 닫기
+}
+
 //void DemoLevel::SetActors()
 //void DemoLevel::SetActors(std::vector<std::vector<int>>& grid,const std::vector<Node*>& path_node)
 //void DemoLevel::SetActors(std::vector<std::vector<int>>& grid)
@@ -551,6 +643,21 @@ void DemoLevel::Update(float deltaTime)
 	{
 		isRemovePath = !isRemovePath;
 	}
+
+	/*if(Engine::Get().GetKeyDown(VK_NUMPAD1))
+	{
+		FileLoad("../Assets/Map.txt");
+	}
+
+	if(Engine::Get().GetKeyDown(VK_NUMPAD2))
+	{
+		FileLoad("../Assets/Map_main.txt");
+	}
+
+	if(Engine::Get().GetKeyDown(VK_NUMPAD3))
+	{
+		FileLoad("../Assets/Map_block.txt");
+	}*/
 }
 
 void DemoLevel::Draw()

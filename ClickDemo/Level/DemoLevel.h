@@ -6,19 +6,19 @@
 #include <Actor\AStarMap\Path.h>
 //#include "etc/Animation.h"
 class DrawableActor;
-class DemoLevel : public Level
+class DemoLevel: public Level
 {
 	enum NodeType {
 		START = 0
-		, GOAL = 1
+		,GOAL = 1
 
-		, count
+		,count
 	};
 	// RTTI 정의.
-	RTTI_DECLARATIONS(DemoLevel, Level)
+	RTTI_DECLARATIONS(DemoLevel,Level)
 private:
 	//시작, 끝 객체 지정
-	void SetActor(NodeType type, Actor* actor);
+	void SetActor(NodeType type,Actor* actor);
 
 public:
 	DemoLevel();
@@ -63,23 +63,20 @@ public:
 	//Vector2 GetNextNodeDir(const Vector2& start);
 	//Vector2 GetNextPathDir(const Vector2 & start);
 	Vector2 GetNextNodeDir(const Vector2& start);
-	Vector2 GetDirection(Vector2 start, Vector2 end);
+	Vector2 GetDirection(Vector2 start,Vector2 end);
 private:
 	//void SetActors();
 	//void SetActors(std::vector<std::vector<int>>& grid);
 	//void SetActors(std::vector<std::vector<int>>& grid,const std::vector<Node*>& path);
 	//void DisplayGridWithPath(std::vector<std::vector<int>>& grid,std::vector<Node*>& path);
 	void InitSetMapActors();
+	void FileLoad(const char * str);
+	//void FileLoad();
 public:
 	DrawableActor* start;
 	DrawableActor* goal;
 
-	//AStar* aStar;
-
 	std::vector<std::vector<int>> origin_grid;
-
-	//	bool isDraw;
-	//	bool isInit=false;
 
 	List <DrawableActor*> maps;	//벽 땅 액터 배열
 	std::vector<DrawableActor*> curr_paths;	//순서대로 할 수 없어
