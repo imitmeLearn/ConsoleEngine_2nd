@@ -19,7 +19,6 @@ public:
 	/*void PlayAnimation();
 	void StopAnimation();*/
 	void PlayAnimation(float deltaTime);
-	bool isArrived();
 	bool isArrived(Vector2 start,Vector2 next);
 private:
 	DemoLevel* refLevel = nullptr;

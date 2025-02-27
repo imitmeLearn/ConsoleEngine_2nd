@@ -79,7 +79,6 @@ void DemoLevel::DrawPath()
 
 	//grid[start->Position().y][start->Position().x] = 2;
 	//grid[goal->Position().y][goal->Position().x] = 3;
-
 	//for(int y = 0; y < (int)grid.size(); y++) //클릭해서, s e 설정하니, 없어도 됨! 이전엔 맵에서 읽었어야 했기에 사용.
 	//{
 	//	for(int x = 0; x < (int)grid[0].size(); x++)
@@ -92,7 +91,6 @@ void DemoLevel::DrawPath()
 	//			grid[y][x] = 0;
 	//			continue;
 	//		}
-
 	//		if(grid[y][x] ==3)
 	//		{
 	//			//goalNode = new Node(goal->Position());
@@ -130,7 +128,6 @@ void DemoLevel::DrawPath()
 	//	str= str + ("(" + std::to_string(node->Position().x) + " - " + std::to_string(node->Position().y) + ") -> ");
 	//}
 	//auto t = str;
-
 	//add_path_node.clear();
 	//for(const Node* node : path_node)
 	//{

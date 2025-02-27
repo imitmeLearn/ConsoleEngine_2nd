@@ -99,7 +99,10 @@ void Start::PlayAnimation(float deltaTime)
 	//내가 목표노드이면, 안그림
 	if(this->Position() == refLevel->goal->Position())
 	{
-		//refLevel-> RemoveCurrPathActor(this->Position());
+		if(refLevel->isRemovePath)
+		{
+			refLevel->DrawPath(); //매 프레임 그리면 안돼 이거나 뒤에서, 패스 지워주거나!
+		}
 
 		return;
 	}
@@ -131,7 +134,7 @@ void Start::PlayAnimation(float deltaTime)
 		//tempPos.x -= direction.x ;
 	}
 
-	refLevel-> RemoveCurrPathActor(this->Position());//refLevel->DrawPath(); //이거 안돼.......ㅡㅜㅡㅜ왜 안되는지 모르겠어.....이거 확인 필요!!!
+	//refLevel-> RemoveCurrPathActor(this->Position());//refLevel->DrawPath(); //이거 안돼.......ㅡㅜㅡㅜ왜 안되는지 모르겠어.....이거 확인 필요!!! -> 이거 매프래임 temp 로 그려서, SE node 만드는게 문제되는 거!로추정!!! 해결?? //todo :해결??
 	SetPosition(tempPos);
 
 	//SetPosition(Vector2(
