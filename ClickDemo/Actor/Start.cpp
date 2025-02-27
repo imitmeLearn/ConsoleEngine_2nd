@@ -99,10 +99,7 @@ void Start::PlayAnimation(float deltaTime)
 	//내가 목표노드이면, 안그림
 	if(this->Position() == refLevel->goal->Position())
 	{
-		if(refLevel->isRemovePath)
-		{
-			refLevel->DrawPath(); //매 프레임 그리면 안돼 이거나 뒤에서, 패스 지워주거나!
-		}
+		//refLevel-> RemoveCurrPathActor(this->Position());
 
 		return;
 	}
@@ -134,7 +131,7 @@ void Start::PlayAnimation(float deltaTime)
 		//tempPos.x -= direction.x ;
 	}
 
-	//refLevel-> RemoveCurrPathActor(this->Position());//refLevel->DrawPath(); //이거 안돼.......ㅡㅜㅡㅜ왜 안되는지 모르겠어.....이거 확인 필요!!! -> 이거 매프래임 temp 로 그려서, SE node 만드는게 문제되는 거!로추정!!! 해결?? //todo :해결??
+	refLevel-> RemoveCurrPathActor(this->Position());//refLevel->DrawPath(); //이거 안돼.......ㅡㅜㅡㅜ왜 안되는지 모르겠어.....이거 확인 필요!!!
 	SetPosition(tempPos);
 
 	//SetPosition(Vector2(
@@ -164,19 +161,4 @@ bool Start::isArrived(Vector2 start,Vector2 next)
 	{
 		return false;
 	}
-}
-bool Start::isArrived()
-{
-	//도착했다면, 다음 목적지 가져와, 단위벡터 set하기
-	//if(this->Position() == refLevel->GetGaolNodePosition())
-	//if(this->Position() == refLevel->GetGaolNodePosition())
-	{
-		//direction=	refLevel->NextNodeDirection(this->position);
-
-		/*	refLevel->NextNode();
-			auto next = refLevel->GetGaolNodePosition();
-			direction=	refLevel->GetDirection(this->position,next);*/
-		return true;
-	}
-	return false;
 }
