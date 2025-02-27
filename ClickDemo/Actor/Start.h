@@ -16,8 +16,8 @@ public:
 	//	curr_path_node = path_node;
 	//}
 
-	void PlayAnimation();
-	void StopAnimation();
+	/*void PlayAnimation();
+	void StopAnimation();*/
 	void PlayAnimation(float deltaTime);
 	bool isArrived();
 	bool isArrived(Vector2 start,Vector2 next);
@@ -27,6 +27,6 @@ private:
 	float speed = 10.f;
 	float yPosition = 0.f;
 	float xPosition = 0.f;
-	Vector2 direction = Vector2(0.f,0.f);
+	Vector2 direction = Vector2(0,0);
 	Vector2 tempPos;
 };

@@ -30,22 +30,22 @@ void DemoLevel::SetActor(NodeType type,Actor* actor)
 	break;
 	}
 }
-//std::vector<std::vector<int>> grid =
-//{
-//};
+////std::vector<std::vector<int>> grid =
+////{
+////};
 //std::vector<std::vector<int>> grid =
 //{
 //	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//	{1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1},
-//	{1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+//	{1,0,0,0,0,0,0,0,0,1,0,1,0,0,1,1},
+//	{1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1},
 //	{1,0,0,0,1,1,1,0,0,1,1,1,0,0,0,1},
-//	{1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1},
-//	{1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1},
+//	{1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1},
+//	{1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1},
 //	{1,0,0,0,1,1,1,0,0,1,1,1,0,0,1,1},
 //	{1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
 //	{1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
 //	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//};
+//};						//맵 끊은 경우
 std::vector<std::vector<int>> grid =
 {
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -169,8 +169,6 @@ void DemoLevel::DrawPath()
 			if(path)
 			{
 				Engine::Get().DestroyActor(actor);
-				//delete actor;
-				//actor = nullptr;
 				continue;
 			}
 		}
@@ -213,8 +211,7 @@ void DemoLevel::RemoveCurrPathActor(Vector2 curr)
 			if(path->Position() == curr)
 			{
 				Engine::Get().DestroyActor(actor);
-				//delete actor;
-				//actor = nullptr;
+
 				return;
 			}
 		}
@@ -300,12 +297,12 @@ void DemoLevel::NextNode()
 //	return	dir;
 //}
 
-Vector2 DemoLevel:: Normalize(Vector2 vec)
-{
-	float length = sqrtf(powf(vec.x,2) + powf(vec.y,2));
-	Vector2 newVec = Vector2(vec.x/length,vec.y/length);
-	return newVec;
-}
+//Vector2 DemoLevel:: Normalize(Vector2 vec)
+//{
+//	float length = sqrtf(powf(vec.x,2) + powf(vec.y,2));
+//	Vector2 newVec = Vector2(vec.x/length,vec.y/length);
+//	return newVec;
+//}
 //Vector2 DemoLevel::GetGaolNodePosition(int node)
 //{
 //	return 	curr_path_node[node]->Position();
@@ -420,7 +417,7 @@ Vector2 DemoLevel::GetNextNodeDir(const Vector2& start)
 	int x = 0;
 	int y = 0;
 	int nextNode = nodePointer + 1;
-	int nodeSize = add_path_node_smart.size();
+	//int nodeSize = add_path_node_smart.size();
 
 	//다음노드가 없다면, 방형 변화 없음
 	if(add_path_node_smart.size() <= nextNode)
